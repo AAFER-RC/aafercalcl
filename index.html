@@ -927,6 +927,23 @@ function formatPlainNumber(val) {
     calculate(); // Ensure calculations are up-to-date
   const { jsPDF } = window.jspdf;
 const doc = new jsPDF();
+const watermarkUrl = "https://raw.githubusercontent.com/AAFER-RC/aafercalcl/1c5906d58e70dcb08e4337ac92eefbd901313849/aaferwatermark.png";
+
+// Load and add the watermark image
+const img = new Image();
+img.crossOrigin = "Anonymous";
+img.onload = function() {
+  const width = doc.internal.pageSize.getWidth();
+  const height = doc.internal.pageSize.getHeight();
+
+  doc.setGState(new doc.GState({ opacity: 0.05 }));
+  doc.addImage(img, "PNG", 20, 60, width - 40, height - 120);
+  doc.setGState(new doc.GState({ opacity: 1 }));
+
+  // Continue with the rest of PDF generation and save
+  continueGeneratingPDF(doc); // we extract the rest into a separate function
+};
+img.src = watermarkUrl;
 
 // Add white background to ensure consistency across browsers (especially Firefox)
 doc.setFillColor(255, 255, 255); // white
@@ -1183,7 +1200,7 @@ closePopup();
 ;
 
 }
-
+};
 
   </script>
   <script src="https://cdn.jsdelivr.net/npm/arabic-persian-reshaper@1.0.5/dist/arabic-persian-reshaper.min.js"></script>
