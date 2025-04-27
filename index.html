@@ -666,7 +666,7 @@ function reshapeArabic(text) {
 
 
 };
-function generatePDF_old() {
+// function generatePDF_old() {
   console.log("generatePDF triggered");
 
   const doc = new window.jspdf.jsPDF();
@@ -675,64 +675,7 @@ function generatePDF_old() {
   // Translation dictionary
   
 
-  const langText = pdfText[currentLang] || pdfText.fr;
-
-  // Collect calculated values
-  const surface = document.getElementById("surface").value;
-  const extraSurface = document.getElementById("extraSurface").value;
-  const price = document.getElementById("priceM2").value;
-  const percent = document.getElementById("paymentPercent").value;
-  const total = document.getElementById("totalPrice").textContent;
-  const initial = document.getElementById("initialPayment").textContent;
-  const remaining = document.getElementById("remainingAmount").textContent;
-  const currency = document.getElementById("currencySelector").value;
-
-  // Collect form input values
-  const client = document.getElementById("clientName").value;
-  const phone = document.getElementById("clientPhone").value;
-  const project = document.getElementById("projectName").value;
-  const block = document.getElementById("block").value;
-  const floor = document.getElementById("floor").value;
-  const type = document.getElementById("apartmentType").value;
-  const refSurface = document.getElementById("refSurface").value;
-
-  // Set direction for Arabic (RTL)
-  if (currentLang === "ar") {
-  doc.setFont("Tajawal", "normal"); // Use Tajawal font for Arabic
-  doc.setFontSize(14);
-  doc.text(reshapeArabic(langText.title), 200, 20, { align: "right" });
-
-  doc.setFontSize(12);
-  let y = 40;
-  doc.text(reshapeArabic(`${langText.name}: ${client}`), 200, y, { align: "right", maxWidth: 180 });
-  doc.text(reshapeArabic(`${langText.phone}: ${phone}`), 200, y += 10, { align: "right", maxWidth: 180 });
-  doc.text(reshapeArabic(`${langText.project}: ${project}`), 200, y += 10, { align: "right", maxWidth: 180 });
-  doc.text(reshapeArabic(`${langText.block}: ${block}`), 200, y += 10, { align: "right", maxWidth: 180 });
-  doc.text(reshapeArabic(`${langText.floor}: ${floor}`), 200, y += 10, { align: "right", maxWidth: 180 });
-  doc.text(reshapeArabic(`${langText.type}: ${type}`), 200, y += 10, { align: "right", maxWidth: 180 });
-  doc.text(reshapeArabic(`${langText.refSurface}: ${refSurface} م²`), 200, y += 10, { align: "right", maxWidth: 180 });
-
-  y += 20;
-  doc.text(reshapeArabic(`${langText.inputSurface}: ${surface} م²`), 200, y += 10, { align: "right", maxWidth: 180 });
-  if (extraSurface && extraSurface > 0) {
-    doc.text(reshapeArabic(`${langText.extra}: ${extraSurface} م²`), 200, y += 10, { align: "right", maxWidth: 180 });
-  }
-  doc.text(reshapeArabic(`${langText.price}: ${price} ${currency}`), 200, y += 10, { align: "right", maxWidth: 180 });
-  doc.text(reshapeArabic(`${langText.percent}: ${percent}%`), 200, y += 10, { align: "right", maxWidth: 180 });
-  doc.text(reshapeArabic(`${langText.total}: ${total}`), 200, y += 20, { align: "right", maxWidth: 180 });
-  doc.text(reshapeArabic(`${langText.upfront}: ${initial}`), 200, y += 10, { align: "right", maxWidth: 180 });
-  doc.text(reshapeArabic(`${langText.remaining}: ${remaining}`), 200, y += 10, { align: "right", maxWidth: 180 });
-}
-
-  doc.setFontSize(8);
-doc.setTextColor(90, 90, 90);
-doc.text("GROUPE AAFER IMMOBILIER - ROUTE DE MALABATA, TANGIER OFFSHORE PLAZA, BORJ AL ANDALOUS I", 105, 280, { align: "center" });
-doc.text("+212 539 944 323 | +212 660 370 388", 105, 285, { align: "center" });
-doc.text("Lun-Ven 09h-17h · Sam 09h-13h", 105, 290, { align: "center" });
-
-  doc.save("fiche-client.pdf");
-  closePopup();
-}
+  
 
 
     const translations = {
@@ -1217,6 +1160,66 @@ closePopup();
 };
 }
 
+    function continueGeneratingPDF(doc) {
+  const langText = pdfText[currentLang] || pdfText.fr;
+
+  // Collect calculated values
+  const surface = document.getElementById("surface").value;
+  const extraSurface = document.getElementById("extraSurface").value;
+  const price = document.getElementById("priceM2").value;
+  const percent = document.getElementById("paymentPercent").value;
+  const total = document.getElementById("totalPrice").textContent;
+  const initial = document.getElementById("initialPayment").textContent;
+  const remaining = document.getElementById("remainingAmount").textContent;
+  const currency = document.getElementById("currencySelector").value;
+
+  // Collect form input values
+  const client = document.getElementById("clientName").value;
+  const phone = document.getElementById("clientPhone").value;
+  const project = document.getElementById("projectName").value;
+  const block = document.getElementById("block").value;
+  const floor = document.getElementById("floor").value;
+  const type = document.getElementById("apartmentType").value;
+  const refSurface = document.getElementById("refSurface").value;
+
+  // Set direction for Arabic (RTL)
+  if (currentLang === "ar") {
+  doc.setFont("Tajawal", "normal"); // Use Tajawal font for Arabic
+  doc.setFontSize(14);
+  doc.text(reshapeArabic(langText.title), 200, 20, { align: "right" });
+
+  doc.setFontSize(12);
+  let y = 40;
+  doc.text(reshapeArabic(`${langText.name}: ${client}`), 200, y, { align: "right", maxWidth: 180 });
+  doc.text(reshapeArabic(`${langText.phone}: ${phone}`), 200, y += 10, { align: "right", maxWidth: 180 });
+  doc.text(reshapeArabic(`${langText.project}: ${project}`), 200, y += 10, { align: "right", maxWidth: 180 });
+  doc.text(reshapeArabic(`${langText.block}: ${block}`), 200, y += 10, { align: "right", maxWidth: 180 });
+  doc.text(reshapeArabic(`${langText.floor}: ${floor}`), 200, y += 10, { align: "right", maxWidth: 180 });
+  doc.text(reshapeArabic(`${langText.type}: ${type}`), 200, y += 10, { align: "right", maxWidth: 180 });
+  doc.text(reshapeArabic(`${langText.refSurface}: ${refSurface} م²`), 200, y += 10, { align: "right", maxWidth: 180 });
+
+  y += 20;
+  doc.text(reshapeArabic(`${langText.inputSurface}: ${surface} م²`), 200, y += 10, { align: "right", maxWidth: 180 });
+  if (extraSurface && extraSurface > 0) {
+    doc.text(reshapeArabic(`${langText.extra}: ${extraSurface} م²`), 200, y += 10, { align: "right", maxWidth: 180 });
+  }
+  doc.text(reshapeArabic(`${langText.price}: ${price} ${currency}`), 200, y += 10, { align: "right", maxWidth: 180 });
+  doc.text(reshapeArabic(`${langText.percent}: ${percent}%`), 200, y += 10, { align: "right", maxWidth: 180 });
+  doc.text(reshapeArabic(`${langText.total}: ${total}`), 200, y += 20, { align: "right", maxWidth: 180 });
+  doc.text(reshapeArabic(`${langText.upfront}: ${initial}`), 200, y += 10, { align: "right", maxWidth: 180 });
+  doc.text(reshapeArabic(`${langText.remaining}: ${remaining}`), 200, y += 10, { align: "right", maxWidth: 180 });
+}
+
+  doc.setFontSize(8);
+doc.setTextColor(90, 90, 90);
+doc.text("GROUPE AAFER IMMOBILIER - ROUTE DE MALABATA, TANGIER OFFSHORE PLAZA, BORJ AL ANDALOUS I", 105, 280, { align: "center" });
+doc.text("+212 539 944 323 | +212 660 370 388", 105, 285, { align: "center" });
+doc.text("Lun-Ven 09h-17h · Sam 09h-13h", 105, 290, { align: "center" });
+
+  doc.save("fiche-client.pdf");
+  closePopup();
+
+}
 
   </script>
   <script src="https://cdn.jsdelivr.net/npm/arabic-persian-reshaper@1.0.5/dist/arabic-persian-reshaper.min.js"></script>
