@@ -947,12 +947,12 @@ function formatPlainNumber(val) {
     const height = doc.internal.pageSize.getHeight();
 
 // Add white background to ensure consistency across browsers (especially Firefox)
-//*doc.setFillColor(255, 255, 255); // white
+doc.setFillColor(255, 255, 255); // white
 doc.rect(0, 0, doc.internal.pageSize.getWidth(), doc.internal.pageSize.getHeight(), 'F');
 
     doc.setGState(new doc.GState({ opacity: 0.05 }));
     doc.addImage(img, "PNG", 20, 60, width - 40, height - 120);
-    doc.setGState(new doc.GState({ opacity: 1 }));*//
+    doc.setGState(new doc.GState({ opacity: 1 }));
 
     // Now call the rest of PDF generation
     continueGeneratingPDF(doc);
