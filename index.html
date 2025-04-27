@@ -945,6 +945,7 @@ img.onload = function() {
 };
 img.src = watermarkUrl;
 
+function continueGeneratingPDF(doc) {
 // Add white background to ensure consistency across browsers (especially Firefox)
 doc.setFillColor(255, 255, 255); // white
 doc.rect(0, 0, doc.internal.pageSize.getWidth(), doc.internal.pageSize.getHeight(), 'F');
@@ -1198,9 +1199,9 @@ doc.save(fileName);
 
 closePopup();
 ;
-
-}
 };
+}
+
 
   </script>
   <script src="https://cdn.jsdelivr.net/npm/arabic-persian-reshaper@1.0.5/dist/arabic-persian-reshaper.min.js"></script>
