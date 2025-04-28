@@ -8,6 +8,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-something" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
   
   <style>
@@ -369,6 +370,14 @@ input, select, textarea {
   box-shadow: 0 0 8px rgba(182, 146, 101, 0.8);
 }
 
+.popup-buttons button:last-child {
+  background-color: #25D366; /* WhatsApp green */
+  color: white;
+  font-weight: bold;
+}
+
+
+
 
   </style>
 </head>
@@ -489,6 +498,10 @@ input, select, textarea {
         <div class="popup-buttons">
           <button onclick="generatePDF().catch(e => alert('Erreur PDF: ' + e.message))">Exporter</button>
           <button onclick="closePopup()">Annuler</button>
+          <button onclick="sendToWhatsApp()">WhatsApp</button>
+
+          
+
         </div>
       </div>
     </div>
@@ -1183,6 +1196,44 @@ closePopup();
 ;
 
 }
+function sendToWhatsApp() {
+  const lang = currentLang;
+
+  const client = document.getElementById("clientName").value || "";
+  const project = document.getElementById("projectName").value || "-";
+  const block = document.getElementById("block").value || "-";
+  const floor = document.getElementById("floor").value || "-";
+  const type = document.getElementById("apartmentType").value || "-";
+  const surface = document.getElementById("surface").value || "0";
+  const price = document.getElementById("priceM2").value || "0";
+  const percent = document.getElementById("paymentPercent").value || "0";
+  const initial = document.getElementById("initialPayment").textContent || "0";
+  const total = document.getElementById("totalPrice").textContent || "0";
+  const hasParking = document.getElementById("hasParking").value === "yes";
+
+  const translations = {
+    fr: {
+      greeting: `Bonjour ${client || "client"}`,
+      message: `Voici les détails de votre consultation:\n\n🏗️ Projet: ${project}\n🏢 Immeuble: ${block}\n🏬 Étage: ${floor}\n📐 Surface: ${surface} m²\n🏷️ Type: ${type}\n💵 Prix/m²: ${price} MAD\n📊 Pourcentage d'avance: ${percent}%\n💰 Avance à payer: ${initial}\n🚗 Parking: ${hasParking ? "Oui" : "Non"}\n💼 Montant total: ${total}\n\nMerci pour votre confiance.`
+    },
+    en: {
+      greeting: `Hello ${client || "client"}`,
+      message: `Here are the details of your consultation:\n\n🏗️ Project: ${project}\n🏢 Building: ${block}\n🏬 Floor: ${floor}\n📐 Surface: ${surface} m²\n🏷️ Type: ${type}\n💵 Price per m²: ${price} MAD\n📊 Upfront %: ${percent}%\n💰 Initial payment: ${initial}\n🚗 Parking: ${hasParking ? "Yes" : "No"}\n💼 Total: ${total}\n\nThank you.`
+    },
+    ar: {
+      greeting: `مرحبا ${client || "العميل"}`,
+      message: `تفاصيل استشارتك:\n\n🏗️ المشروع: ${project}\n🏢 العمارة: ${block}\n🏬 الطابق: ${floor}\n📐 المساحة: ${surface} م²\n🏷️ النوع: ${type}\n💵 السعر/م²: ${price} MAD\n📊 النسبة المئوية المقدمة: ${percent}%\n💰 الدفعة الأولى: ${initial}\n🚗 موقف: ${hasParking ? "نعم" : "لا"}\n💼 المجموع: ${total}\n\nشكرا على ثقتكم.`
+    }
+  };
+
+  const t = translations[lang] || translations.fr;
+  const message = `${t.greeting}\n\n${t.message}`;
+  const encodedMessage = encodeURIComponent(message);
+  const whatsappURL = `https://wa.me/?text=${encodedMessage}`;
+
+  window.open(whatsappURL, '_blank');
+}
+
 
 
   </script>
