@@ -8,9 +8,10 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-something" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" crossorigin="anonymous" />
 
-  
+
+
   <style>
     * {
       box-sizing: border-box;
@@ -260,7 +261,7 @@ html[lang="ar"] * {
 
 .floating-selectors {
   position: sticky;
-  top: 10px;
+  top: 90%;
   z-index: 999;
   width: 100%;
   display: flex;
@@ -377,11 +378,92 @@ input, select, textarea {
 }
 
 
+#sidebarToggle {
+  position: fixed;
+  top: 18px;
+  left: 30px;
+  background: rgba(255, 255, 255, 0.447);
+  color: rgb(255, 250, 250);
+  padding: 10px 15px;
+  font-size: 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  z-index: 2000;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  border-color: #000000;
+}
+
+#sidebar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 100vh;
+  width: 220px;
+  background: rgba(20, 20, 20, 0.4);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  padding-top: 60px;
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.2);
+  transform: translateX(-100%);
+  transition: transform 0.3s ease;
+  z-index: 1000;
+}
+
+#sidebar.visible {
+  transform: translateX(0);
+}
+
+.sidebar-menu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar-menu li {
+  padding: 15px 20px;
+  font-size: 16px;
+  color: white;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.sidebar-menu li i {
+  margin-right: 12px;
+  font-size: 18px;
+  color: #d0ab80;
+}
+
+.sidebar-menu li:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.sidebar-header {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+}
+
+.close-btn {
+  font-size: 20px;
+  color: white;
+  cursor: pointer;
+}
 
 
   </style>
 </head>
 <body>
+  
+  
+  <!-- Sidebar Toggle Button -->
+<div id="sidebarToggle" onclick="toggleSidebar()">
+  <i class="fa fa-bars" aria-hidden="true" style="display:inline-block;"></i>
+
+</div>
+
+  
   <div class="overlay">
 
     <div class="floating-selectors">
@@ -1238,6 +1320,34 @@ function sendToWhatsApp() {
 
   </script>
   <script src="https://cdn.jsdelivr.net/npm/arabic-persian-reshaper@1.0.5/dist/arabic-persian-reshaper.min.js"></script>
+
+  <!-- Sidebar Container -->
+<div id="sidebar" class="hidden">
+  <div class="sidebar-header">
+    <i class="fas fa-times close-btn" onclick="toggleSidebar()"></i>
+  </div>
+  <ul class="sidebar-menu">
+    <li><i class="fas fa-home"></i> Dashboard</li>
+    <li><i class="fas fa-camera"></i> Mobile Camera</li>
+    <li><i class="fas fa-chart-line"></i> Analytics</li>
+    <li><i class="fas fa-history"></i> Timeline</li>
+    <li><i class="fas fa-calendar-check"></i> Follow-Up</li>
+    <li><i class="fas fa-folder-open"></i> Load Consultations</li>
+    <li><i class="fas fa-cog"></i> Settings</li>
+  </ul>
+</div>
+
+<!-- Sidebar Toggle Script -->
+<script>
+  function toggleSidebar() {
+    const sidebar = document.getElementById("sidebar");
+    sidebar.classList.toggle("visible");
+  }
+</script>
+
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
+
 
 </body>
 </html>
