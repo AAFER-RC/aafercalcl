@@ -200,9 +200,22 @@
     gap: 5px;
   }
 
+  @media (min-width: 769px) {
   .popup-content form .full-width {
     grid-column: span 2;
   }
+
+  .popup-content form .full-width label {
+    width: 100%;
+  }
+
+  .popup-content form .full-width textarea {
+    width: 100%;
+    box-sizing: border-box;
+    resize: vertical;
+  }
+}
+
 }
 
 .popup-content label {
@@ -701,44 +714,50 @@ html[lang="ar"] .sidebar-menu li {
       </button>          
       </div>
 
-    <div id="popupForm" style="display:none;" class="popup-overlay">
-      <div class="popup-content">
-        <h3>Informations du client</h3>
-        <form>
-          <div class="form-row">
-            <label><span class="label-text">Nom du client:</span>
-              <input type="text" id="clientName" placeholder="Nom du client" />
-            </label>
-            <label><span class="label-text">Téléphone:</span>
-              <input type="text" id="clientPhone" placeholder="Téléphone" />
+      <div id="popupForm" style="display:none;" class="popup-overlay">
+        <div class="popup-content">
+          <h3>Informations du client</h3>
+          <form>
+            <div class="form-row">
+              <label><span class="label-text">Nom du client:</span>
+                <input type="text" id="clientName" placeholder="Nom du client" />
+              </label>
+              <label><span class="label-text">Téléphone:</span>
+                <input type="text" id="clientPhone" placeholder="Téléphone" />
+              </label>
+            </div>
+            <div class="form-row">
+              <label><span class="label-text">Projet:</span>
+                <input type="text" id="projectName" placeholder="Projet" />
+              </label>
+              <label><span class="label-text">Bloc ~ Immeuble:</span>
+                <input type="text" id="block" placeholder="Bloc ~ Immeuble" />
+              </label>
+            </div>
+            <div class="form-row">
+              <label><span class="label-text">Étage:</span>
+                <input type="text" id="floor" placeholder="Étage" />
+              </label>
+              <label><span class="label-text">Type d'appartement:</span>
+                <input type="text" id="apartmentType" placeholder="Type d'appartement" />
+              </label>
+            </div>
+            
+          </form>
+          <div class="form-row full-width">
+            <label for="client-notes">
+              <span class="label-text">Remarques et Spécifications:</span>
+              <textarea id="client-notes" rows="4" placeholder="Saisir les remarques du client ici..."></textarea>
             </label>
           </div>
-          <div class="form-row">
-            <label><span class="label-text">Projet:</span>
-              <input type="text" id="projectName" placeholder="Projet" />
-            </label>
-            <label><span class="label-text">Bloc ~ Immeuble:</span>
-              <input type="text" id="block" placeholder="Bloc ~ Immeuble" />
-            </label>
+          <div class="popup-buttons">
+            <button onclick="generatePDF().catch(e => alert('Erreur PDF: ' + e.message))">Exporter</button>
+            <button onclick="closePopup()">Annuler</button>
+            <button onclick="sendToWhatsApp()">WhatsApp</button>
           </div>
-          <div class="form-row">
-            <label><span class="label-text">Étage:</span>
-              <input type="text" id="floor" placeholder="Étage" />
-            </label>
-            <label><span class="label-text">Type d'appartement:</span>
-              <input type="text" id="apartmentType" placeholder="Type d'appartement" />
-            </label>
-          </div>
-        </form>
-      
-        <div class="popup-buttons">
-          <button onclick="generatePDF().catch(e => alert('Erreur PDF: ' + e.message))">Exporter</button>
-          <button onclick="closePopup()">Annuler</button>
-          <button onclick="sendToWhatsApp()">WhatsApp</button>
         </div>
       </div>
       
-    </div>
     
   </div>
 
@@ -1099,6 +1118,10 @@ if (floorLabel) floorLabel.textContent = t.floor;
 const apartmentTypeLabel = document.querySelector("label[for='apartmentType'] .label-text");
 if (apartmentTypeLabel) apartmentTypeLabel.textContent = t.apartmentType;
 
+const clientNotesLabel = document.querySelector("label[for='client-notes'] .label-text");
+if (clientNotesLabel) clientNotesLabel.textContent = t.clientNotes;
+
+
 const exportButton = document.querySelector(".popup-buttons button:nth-child(1)");
 if (exportButton) exportButton.textContent = t.export;
 
@@ -1260,7 +1283,8 @@ document.body.setAttribute("dir", currentLang === "ar" ? "rtl" : "ltr");
         headers2: ["面积", "额外面积", "每平方米价格", "停车位"],
         headers3: ["总计", "首付款", "剩余"],
         property: "物业",
-        finance: "财务"
+        finance: "财务",
+        clientNotes: "备注与规格"
       },
 
 
@@ -1287,9 +1311,7 @@ document.body.setAttribute("dir", currentLang === "ar" ? "rtl" : "ltr");
     parkingLabel: "Parking spot?",
     yesNo: { yes: "Yes", no: "No" },
     parkingPriceLabel: "Parking price",
-
-
-
+    clientNotes: "Notes and Specifications",
   },
   fr: {
     type: "Type de bien",
@@ -1309,6 +1331,7 @@ document.body.setAttribute("dir", currentLang === "ar" ? "rtl" : "ltr");
     parkingLabel: "Place de parking ?",
     yesNo: { yes: "Oui", no: "Non" },
     parkingPriceLabel: "Prix du parking",
+    clientNotes: "Remarques et Spécifications",
   },
   ar: {
     type: "نوع العقار",
@@ -1328,6 +1351,7 @@ document.body.setAttribute("dir", currentLang === "ar" ? "rtl" : "ltr");
     parkingLabel: "موقف سيارة؟",
     yesNo: { yes: "نعم", no: "لا" },
     parkingPriceLabel: "سعر الموقف",
+    clientNotes: "ملاحظات ومواصفات",
   },
   es: {
     type: "Tipo de propiedad",
@@ -1347,6 +1371,7 @@ document.body.setAttribute("dir", currentLang === "ar" ? "rtl" : "ltr");
     parkingLabel: "¿Plaza de aparcamiento?",
     yesNo: { yes: "Sí", no: "No" },
     parkingPriceLabel: "Precio del aparcamiento",
+    clientNotes: "Observaciones y especificaciones",
   },
   nl: {
   type: "Type eigendom",
@@ -1365,7 +1390,9 @@ document.body.setAttribute("dir", currentLang === "ar" ? "rtl" : "ltr");
   mezzanine: "Oppervlakte van de mezzanine (m²)",
   parkingLabel: "Parkeerplaats?",
   yesNo: { yes: "Ja", no: "Nee" },
-  parkingPriceLabel: "Prijs van de parking"
+  parkingPriceLabel: "Prijs van de parking",
+  clientNotes: "Opmerkingen en specificaties",
+
 },
 de: {
   type: "Immobilienart",
@@ -1384,7 +1411,9 @@ de: {
   mezzanine: "Zwischengeschossfläche (m²)",
   parkingLabel: "Parkplatz?",
   yesNo: { yes: "Ja", no: "Nein" },
-  parkingPriceLabel: "Parkpreis"
+  parkingPriceLabel: "Parkpreis",
+  clientNotes: "Bemerkungen und Spezifikationen",
+
 },
 zh: {
   type: "房产类型",
@@ -1403,7 +1432,8 @@ zh: {
   mezzanine: "夹层面积 (m²)",
   parkingLabel: "有停车位？",
   yesNo: { yes: "是", no: "否" },
-  parkingPriceLabel: "停车费用"
+  parkingPriceLabel: "停车费用",
+  clientNotes: "备注与规格",
 },
 
 };
