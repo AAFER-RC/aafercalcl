@@ -183,6 +183,27 @@
   }
 }
 
+@media (min-width: 769px) {
+  .popup-content form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px 30px;
+  }
+
+  .popup-content form .form-row {
+    display: contents; /* let children control layout */
+  }
+
+  .popup-content form .form-row label {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .popup-content form .full-width {
+    grid-column: span 2;
+  }
+}
 
 .popup-content label {
   font-size: 14px;
@@ -683,21 +704,40 @@ html[lang="ar"] .sidebar-menu li {
     <div id="popupForm" style="display:none;" class="popup-overlay">
       <div class="popup-content">
         <h3>Informations du client</h3>
-        <label><span class="label-text">Nom du client:</span><input type="text" id="clientName" placeholder="Nom du client"/></label>
-        <label><span class="label-text">Téléphone:</span><input type="text" id="clientPhone" placeholder="Téléphone"/></label>
-        <label><span class="label-text">Projet:</span><input type="text" id="projectName" placeholder="Projet"/></label>
-        <label><span class="label-text">Bloc ~ Immeuble:</span><input type="text" id="block" placeholder="Bloc ~ Immeuble"/></label>
-        <label><span class="label-text">Étage:</span><input type="text" id="floor" placeholder="Étage"/></label>
-        <label><span class="label-text">Type d'appartement:</span><input type="text" id="apartmentType" placeholder="Type d'appartement"/></label>
+        <form>
+          <div class="form-row">
+            <label><span class="label-text">Nom du client:</span>
+              <input type="text" id="clientName" placeholder="Nom du client" />
+            </label>
+            <label><span class="label-text">Téléphone:</span>
+              <input type="text" id="clientPhone" placeholder="Téléphone" />
+            </label>
+          </div>
+          <div class="form-row">
+            <label><span class="label-text">Projet:</span>
+              <input type="text" id="projectName" placeholder="Projet" />
+            </label>
+            <label><span class="label-text">Bloc ~ Immeuble:</span>
+              <input type="text" id="block" placeholder="Bloc ~ Immeuble" />
+            </label>
+          </div>
+          <div class="form-row">
+            <label><span class="label-text">Étage:</span>
+              <input type="text" id="floor" placeholder="Étage" />
+            </label>
+            <label><span class="label-text">Type d'appartement:</span>
+              <input type="text" id="apartmentType" placeholder="Type d'appartement" />
+            </label>
+          </div>
+        </form>
+      
         <div class="popup-buttons">
           <button onclick="generatePDF().catch(e => alert('Erreur PDF: ' + e.message))">Exporter</button>
           <button onclick="closePopup()">Annuler</button>
           <button onclick="sendToWhatsApp()">WhatsApp</button>
-
-          
-
         </div>
       </div>
+      
     </div>
     
   </div>
