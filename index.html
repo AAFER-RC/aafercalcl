@@ -148,133 +148,53 @@
       font-size: 12px;
       margin-top: 5px;
     }
-      /* Popup overlay styling */
-      .popup-overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.5);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        z-index: 1000;
-        padding: 20px;
-        box-sizing: border-box;
-      }
+    .popup-overlay {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background-color: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  }
 
-      /* Popup content styling */
-      .popup-content {
-        background: rgba(255, 255, 255, 0.6); /* glassy white */
-        backdrop-filter: blur(6px);
-        padding: 20px;
-        border-radius: 20px;
-        width: 60vw; /* 60% of viewport width */
-        max-width: 600px; /* Prevent it from getting too wide */
-        min-width: 280px; /* Ensure it’s not too narrow */
-        margin: auto; /* Center the popup */
-        display: flex;
-        flex-direction: column;
-        gap: 15px; /* Increased gap for better spacing */
-        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2); /* subtle depth */
-      }
-            .popup-content {
-        max-height: 90vh;
-        overflow-y: auto;
-      }
-
-      /* Form row styling for single-column layout (mobile default) */
-      .form-row {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-      }
-
-      .form-row label {
-        font-size: 14px;
-        display: flex;
-        flex-direction: column;
-        gap: 5px;
-      }
-
-      .form-row label.full-width {
-        grid-column: 1 / -1; /* Span full width for textarea */
-      }
-
-      .form-row .label-text {
-        flex: 0 0 auto;
-      }
-
-      .form-row input,
-      .form-row textarea {
-        width: 100%;
-        padding: 10px;
-        border: 2px solid #d0ab80;
-        border-radius: 10px;
-        box-sizing: border-box;
-        outline: none;
-        transition: border-color 0.3s ease, box-shadow 0.3s ease;
-        font-size: 14px;
-      }
-
-      .form-row textarea {
-        resize: vertical; /* Allow vertical resizing only */
-        min-height: 100px; /* Larger textarea for better usability */
-      }
-
-      .form-row input:focus,
-      .form-row textarea:focus {
-        border-color: #b69265;
-        box-shadow: 0 0 15px rgba(182, 146, 101, 0.5);
-      }
-
-        /* Desktop layout: Pair labels in two columns */
-      @media (min-width: 769px) {
-        .form-row {
-          display: grid;
-          grid-template-columns: 1fr 1fr; /* Two equal columns */
-          gap: 15px; /* Space between columns */
-        }
-
-        .form-row label {
-          margin: 0; /* Remove default margins for grid alignment */
-        }
-
-        .popup-content {
-          padding: 25px; /* Slightly more padding for desktop */
-        }
-      }
+  .popup-content {
+  background: rgba(255, 255, 255, 0.6); /* glassy white */
+  backdrop-filter: blur(6px);
+  padding: 20px;
+  border-radius: 20px;
+  width: 30%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2); /* subtle depth */
+}
 
 
-        /* Mobile layout: Keep single-column layout */
-        @media (max-width: 768px) {
-          .popup-content {
-            width: 90vw; /* 90% of viewport width */
-            padding: 15px; /* Reduced padding for mobile */
-          }
-
-          .form-row {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-          }
-        }
-
-
-  .popup-content label {
-    font-size: 14px;
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
+.popup-content label {
+  font-size: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
   }
 
   .popup-content .label-text {
-    flex: 0 0 auto;
-  }
+  flex: 0 0 auto;
+}
 
   
-
+.popup-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+  }
+  select#hasParking {
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  width: 55%;
+ }
 
 
 /* Custom Button Styling */
@@ -337,67 +257,6 @@ button.generate-pdf:active {
 }
 
 
-/* Popup buttons styling */
-.popup-buttons {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  gap: 10px;
-  margin-top: 10px;
-}
-
-.popup-buttons button {
-  font-size: 14px;
-  padding: 0.7em 1.5em;
-  border: 2px solid #916D48;
-  border-radius: 10px;
-  background-color: #183153bc;
-  color: #ffffff;
-  font-weight: bold;
-  cursor: pointer;
-  transition: 0.3s ease all;
-  position: relative;
-  z-index: 1;
-  flex: 1;
-  min-width: 100px;
-}
-
-.popup-buttons button:before {
-  transition: 0.5s all ease;
-  position: absolute;
-  top: 0;
-  left: 50%;
-  right: 50%;
-  bottom: 0;
-  opacity: 0;
-  content: '';
-  background-color: #916D48;
-  z-index: -1;
-  border-radius: 10px;
-}
-
-.popup-buttons button:hover,
-.popup-buttons button:focus {
-  border: 1px solid #d0ab80;
-  color: white;
-}
-
-.popup-buttons button:hover:before,
-.popup-buttons button:focus:before {
-  left: 0;
-  right: 0;
-  opacity: 1;
-}
-
-.popup-buttons button:active {
-  transform: scale(0.96);
-}
-
-.popup-buttons button:last-child {
-  background-color: #25D366; /* WhatsApp green */
-  color: white;
-  font-weight: bold;
-}
 
 @keyframes scaleUp {
   0% { transform: scale(1); }
@@ -405,12 +264,6 @@ button.generate-pdf:active {
   100% { transform: scale(1); }
 }
 
-select#hasParking {
-  padding: 10px;
-  border-radius: 10px;
-  border: 1px solid #ccc;
-  width: 55%;
- }
 
 .floating-selectors {
   position: sticky;
@@ -547,7 +400,56 @@ html[lang="ar"] option {
   box-shadow: 0 0 8px rgba(182, 146, 101, 0.8);
 }
 
+.popup-buttons button {
+  font-size: 14px;
+  padding: 0.7em 1.5em;
+  border: 2px solid #916D48;
+  border-radius: 10px;
+  background-color: #183153bc;
+  color: #ffffff;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s ease all;
+  position: relative;
+  z-index: 1;
+}
 
+.popup-buttons button:before {
+  transition: 0.5s all ease;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  right: 50%;
+  bottom: 0;
+  opacity: 0;
+  content: '';
+  background-color: #916D48;
+  z-index: -1;
+  border-radius: 10px;
+}
+
+.popup-buttons button:hover,
+.popup-buttons button:focus {
+  border: 1px solid #d0ab80;
+  color: white;
+}
+
+.popup-buttons button:hover:before,
+.popup-buttons button:focus:before {
+  left: 0;
+  right: 0;
+  opacity: 1;
+}
+
+.popup-buttons button:active {
+  transform: scale(0.96);
+}
+
+.popup-buttons button:last-child {
+  background-color: #25D366; /* WhatsApp green */
+  color: white;
+  font-weight: bold;
+}
 #sidebarToggle {
   position: fixed;
   top: 18px;
@@ -756,33 +658,26 @@ html[lang="ar"] .sidebar-menu li {
       </button>          
       </div>
 
-    <!-- Popup Form -->
-  <div id="popupForm" style="display:none;" class="popup-overlay">
-    <div class="popup-content">
-      <h3>Informations du client</h3>
-      <div class="form-row">
+    <div id="popupForm" style="display:none;" class="popup-overlay">
+      <div class="popup-content">
+        <h3>Informations du client</h3>
         <label><span class="label-text">Nom du client:</span><input type="text" id="clientName" placeholder="Nom du client"/></label>
         <label><span class="label-text">Téléphone:</span><input type="text" id="clientPhone" placeholder="Téléphone"/></label>
-      </div>
-      <div class="form-row">
         <label><span class="label-text">Projet:</span><input type="text" id="projectName" placeholder="Projet"/></label>
         <label><span class="label-text">Bloc ~ Immeuble:</span><input type="text" id="block" placeholder="Bloc ~ Immeuble"/></label>
-      </div>
-      <div class="form-row">
         <label><span class="label-text">Étage:</span><input type="text" id="floor" placeholder="Étage"/></label>
         <label><span class="label-text">Type d'appartement:</span><input type="text" id="apartmentType" placeholder="Type d'appartement"/></label>
-      </div>
-      <div class="form-row">
-        <label class="full-width"><span class="label-text">Remarques et Spécifications:</span>
-          <textarea id="client-notes" name="client-notes" rows="4" placeholder="Saisir les remarques du client ici..."></textarea>
-        </label>
-      </div>
-      <div class="popup-buttons">
-        <button onclick="generatePDF().catch(e => alert('Erreur PDF: ' + e.message))">Exporter</button>
-        <button onclick="closePopup()">Annuler</button>
-        <button onclick="sendToWhatsApp()">WhatsApp</button>
+        <div class="popup-buttons">
+          <button onclick="generatePDF().catch(e => alert('Erreur PDF: ' + e.message))">Exporter</button>
+          <button onclick="closePopup()">Annuler</button>
+          <button onclick="sendToWhatsApp()">WhatsApp</button>
+
+          
+
+        </div>
       </div>
     </div>
+    
   </div>
 
   <script>
@@ -809,7 +704,6 @@ function reshapeArabic(text) {
     const remainingAmountEl = document.getElementById('remainingAmount');
     const extraSurfaceField = document.getElementById('extraSurfaceField');
     const extraLabel = document.getElementById('extraLabel');
-   
 
     let exchangeRates = { EUR: 0.091, USD: 0.10, MAD: 1 };
 
@@ -926,7 +820,6 @@ function reshapeArabic(text) {
       totalPrice: "Montant Total",
       initialPayment: "Paiement Initial",
       remainingAmount: "Reste à Payer",
-      notes: "Remarques et Spécifications",
       pdfButton: "Générer PDF",
       popupTitle: "Informations du client",
       clientName: "Nom du client",
@@ -951,7 +844,6 @@ function reshapeArabic(text) {
       totalPrice: "Total Amount",
       initialPayment: "Upfront Payment",
       remainingAmount: "Remaining Amount",
-      notes: "Notes and Specifications",
       pdfButton: "Generate PDF",
       popupTitle: "Client Information",
       clientName: "Client Name",
@@ -976,7 +868,6 @@ function reshapeArabic(text) {
       totalPrice: "المبلغ الإجمالي",
       initialPayment: "الدفعة الأولية",
       remainingAmount: "المتبقي للدفع",
-       notes: "ملاحظات ومواصفات",
       pdfButton: "إنشاء PDF",
       popupTitle: "معلومات العميل",
       clientName: "اسم العميل",
@@ -1177,8 +1068,7 @@ document.body.setAttribute("dir", currentLang === "ar" ? "rtl" : "ltr");
     percent: "Paiement initial",
     total: "Montant total",
     upfront: "Paiement initial",
-    remaining: "Reste à payer",
-    notes: "Remarques et Spécifications"
+    remaining: "Reste à payer"
   },
   en: {
     title: "Real Estate Consultation Sheet",
@@ -1195,8 +1085,7 @@ document.body.setAttribute("dir", currentLang === "ar" ? "rtl" : "ltr");
     percent: "Upfront Payment",
     total: "Total Amount",
     upfront: "Upfront Payment",
-    remaining: "Remaining Amount",
-    notes: "Notes and Specifications"
+    remaining: "Remaining Amount"
   },
   ar: {
       propertyType: "نوع العقار",
@@ -1210,7 +1099,6 @@ document.body.setAttribute("dir", currentLang === "ar" ? "rtl" : "ltr");
       totalPrice: "المبلغ الإجمالي",
       initialPayment: "الدفعة الأولية",
       remainingAmount: "المتبقي للدفع",
-      notes: "ملاحظات ومواصفات",
       pdfButton: "إنشاء PDF",
       popupTitle: "معلومات العميل",
       clientName: "اسم العميل",
@@ -1312,7 +1200,11 @@ document.body.setAttribute("dir", currentLang === "ar" ? "rtl" : "ltr");
         property: "物业",
         finance: "财务"
       },
+
+
 };
+
+
 
     const translations = {
   en: {
@@ -1333,6 +1225,8 @@ document.body.setAttribute("dir", currentLang === "ar" ? "rtl" : "ltr");
     parkingLabel: "Parking spot?",
     yesNo: { yes: "Yes", no: "No" },
     parkingPriceLabel: "Parking price",
+
+
 
   },
   fr: {
@@ -1577,7 +1471,7 @@ function formatPlainNumber(val) {
   const floor = document.getElementById("floor").value;
   const type = document.getElementById("apartmentType").value;
   const refSurface = document.getElementById("refSurface").value;
- 
+
   // Set direction for Arabic (RTL)
   if (currentLang === "ar") {
   doc.setFont("Tajawal", "normal"); // Use Tajawal font for Arabic
@@ -1626,18 +1520,8 @@ async function generatePDF() {
    
     calculate(); // Ensure calculations are up-to-date
      const { jsPDF } = window.jspdf;
-    const doc = new jsPDF({ orientation: 'p', unit: 'mm', format: 'a4' });
+    const doc = new jsPDF();
     await calculate(); // Ensure calculations are up-to-date
-    
-    const currency = document.getElementById("currencySelector").value;
-
-  
-  
-
-
-
-
-
 
 // Add white background to ensure consistency across browsers (especially Firefox)
 doc.setFillColor(255, 255, 255); // white
@@ -1684,7 +1568,6 @@ const tajawalFontBase64 = "AAEAAAAPAIAAAwBwR0RFRg2PDfEAAAGQAAAAUkdQT1MwxTX/AAAkg
       headers1: ["Projet", "Bloc", "Étage", "Type"],
       headers2: ["Surface", "Mezzanine", "Prix/m²", "Parking"],
       headers3: ["Montant total", "Paiement initial", "Percentage %","Reste à payer"],
-      notes: "Remarques et Spécifications",
       client: "Nom du client",
       phone: "Téléphone"
     },
@@ -1697,7 +1580,7 @@ const tajawalFontBase64 = "AAEAAAAPAIAAAwBwR0RFRg2PDfEAAAGQAAAAUkdQT1MwxTX/AAAkg
       headers1: ["Project", "Block", "Floor", "Type"],
       headers2: ["Surface", "Mezzanine", "Price/m²", "Parking"],
       headers3: ["Total Amount", "Upfront Payment", "Percentage %", "Remaining Amount"],
-      notes: "Notes and Specifications",
+
       client: "Client Name",
       phone: "Phone"
     },
@@ -1710,7 +1593,6 @@ const tajawalFontBase64 = "AAEAAAAPAIAAAwBwR0RFRg2PDfEAAAGQAAAAUkdQT1MwxTX/AAAkg
       headers1: ["المشروع", "المبنى", "الطابق", "النوع"],
       headers2: ["المساحة", "الميزانين", "سعر شقة / م²", "موقف السيارة"],
       headers3: ["المبلغ الإجمالي", "الدفعة الأولية", "% النسبة المئوية" 	, "المتبقي للدفع"],
-      notes: "ملاحظات ومواصفات",
       client: "اسم العميل",
       phone: "الهاتف"
     },
@@ -1777,7 +1659,7 @@ zh: {
    70, 12, 70, 80);
 
 
-    // Title
+    // Then add title
     doc.setFontSize(20);
     doc.setTextColor(130, 96, 50);
     doc.text(t.title, 105, 85, { align: "center" });
@@ -1792,33 +1674,8 @@ zh: {
 
   const client = document.getElementById("clientName").value;
   const phone = document.getElementById("clientPhone").value;
- 
   doc.text(`${t.client}: ${client}`, 15, y); y += 6;
   doc.text(`${t.phone}: ${phone}`, 15, y); y += 10;
-
-
-  const clientNotes = document.getElementById('client-notes').value || '';
-      if (clientNotes.trim() !== '') {
-        const isRTL = currentLang === 'ar';
-  const docDirection = isRTL ? 'rtl' : 'ltr';
-  const label = isRTL ? 'ملاحظات ومواصفات:' : 'Remarques et Spécifications:';
-  const marginLeft = isRTL ? doc.internal.pageSize.getWidth() - 40 : 20;
-  const align = isRTL ? 'right' : 'left';
-    doc.setFont('Amiri', 'normal'); // or your RTL-compatible font
-    doc.setFontSize(12);
-    doc.text(label, marginLeft, currentY + 10, { align });
-  const splitNotes = doc.splitTextToSize(clientNotes, 160);
-    doc.text(splitNotes, marginLeft, currentY + 18, { align });
-
-    currentY += 18 + splitNotes.length * 6;
-  }
-
-
-
-
-
-
-
 
   // Project Table
   doc.text(t.project.toUpperCase(), 15, y); y += 8;
@@ -1830,20 +1687,22 @@ zh: {
     document.getElementById("apartmentType").value
   ];
   doc.autoTable({
-    startY: y,
-    head: [headers1],
-    body: [row1],
-    theme: 'grid',
-    styles: {
-      font: "Tajawal",
-      fontStyle: "normal",
-      fontSize: 10
-    },
-    headStyles: {
-      fillColor: [208, 171, 128],
-      textColor: 0
-    }
-  });
+  startY: y,
+  head: [headers1],
+  body: [row1],
+  theme: 'grid',
+  styles: {
+  font: "Tajawal", // 👈 this applies the font to table text
+  fontStyle: "normal",
+  fontSize: 10
+},
+
+  headStyles: {
+  fillColor: [208, 171, 128],
+  textColor: 0 // 0 = black
+}
+
+});
 
   y = doc.lastAutoTable.finalY + 10;
 
@@ -1907,12 +1766,18 @@ y = doc.lastAutoTable.finalY + 10;
   // Financial Table
   doc.text(t.finance.toUpperCase(), 15, y); y += 8;
   const headers3 = t.headers3;
+
+
     const row3 = [
     formatPlainNumber(window._calculatedValues.total) + " " + currency,
     formatPlainNumber(window._calculatedValues.initial) + " " + currency,
     window._calculatedValues.percent + "%",
     formatPlainNumber(window._calculatedValues.remaining) + " " + currency
     ];
+
+
+
+
   doc.autoTable({
   startY: y,
   head: [headers3],
@@ -1929,22 +1794,6 @@ y = doc.lastAutoTable.finalY + 10;
 }
 
 });
-  
-y = doc.lastAutoTable.finalY + 10;
-
-// Notes Section
-if (clientNotes.trim() !== '') {
-  const isRTL = lang === "ar";
-  const marginLeft = isRTL ? doc.internal.pageSize.getWidth() - 40 : 15;
-  const align = isRTL ? 'right' : 'left';
-
-  doc.setFont('Amiri', 'normal');
-  doc.setFontSize(12);
-  doc.text(t.notes.toUpperCase(), 15, y); y += 8;
-  const splitNotes = doc.splitTextToSize(clientNotes, 180);
-  doc.text(splitNotes, marginLeft, y, { align });
-  y += splitNotes.length * 6;
-}
 
    // Footer
 doc.setFontSize(8);
@@ -1968,11 +1817,12 @@ const fileName = clientName + '-' + timestamp + '.pdf';
 doc.save(fileName);
 
 closePopup();
+;
 
 }
-//  sendToWhatsApp function
 function sendToWhatsApp() {
   const lang = currentLang;
+
   const client = document.getElementById("clientName").value || "";
   const project = document.getElementById("projectName").value || "-";
   const block = document.getElementById("block").value || "-";
@@ -1984,20 +1834,19 @@ function sendToWhatsApp() {
   const initial = document.getElementById("initialPayment").textContent || "0";
   const total = document.getElementById("totalPrice").textContent || "0";
   const hasParking = document.getElementById("hasParking").value === "yes";
-  const clientNotes = document.getElementById("client-notes").value || "-";
 
   const translations = {
     fr: {
       greeting: `Bonjour ${client || "client"}`,
-      message: `Voici les détails de votre consultation:\n\n🏗️ Projet: ${project}\n🏢 Immeuble: ${block}\n�\n🏬 Étage: ${floor}\n📐 Surface: ${surface} m²\n🏷️ Type: ${type}\n💵 Prix/m²: ${price} MAD\n📊 Pourcentage d'avance: ${percent}%\n💰 Avance à payer: ${initial}\n🚗 Parking: ${hasParking ? "Oui" : "Non"}\n💼 Montant total: ${total}\n📝 Remarques: ${clientNotes}\n\nMerci pour votre confiance.`
+      message: `Voici les détails de votre consultation:\n\n🏗️ Projet: ${project}\n🏢 Immeuble: ${block}\n🏬 Étage: ${floor}\n📐 Surface: ${surface} m²\n🏷️ Type: ${type}\n💵 Prix/m²: ${price} MAD\n📊 Pourcentage d'avance: ${percent}%\n💰 Avance à payer: ${initial}\n🚗 Parking: ${hasParking ? "Oui" : "Non"}\n💼 Montant total: ${total}\n\nMerci pour votre confiance.`
     },
     en: {
       greeting: `Hello ${client || "client"}`,
-      message: `Here are the details of your consultation:\n\n🏗️ Project: ${project}\n🏢 Building: ${block}\n🏬 Floor: ${floor}\n📐 Surface: ${surface} m²\n🏷️ Type: ${type}\n💵 Price per m²: ${price} MAD\n📊 Upfront %: ${percent}%\n💰 Initial payment: ${initial}\n🚗 Parking: ${hasParking ? "Yes" : "No"}\n💼 Total: ${total}\n📝 Notes: ${clientNotes}\n\nThank you.`
+      message: `Here are the details of your consultation:\n\n🏗️ Project: ${project}\n🏢 Building: ${block}\n🏬 Floor: ${floor}\n📐 Surface: ${surface} m²\n🏷️ Type: ${type}\n💵 Price per m²: ${price} MAD\n📊 Upfront %: ${percent}%\n💰 Initial payment: ${initial}\n🚗 Parking: ${hasParking ? "Yes" : "No"}\n💼 Total: ${total}\n\nThank you.`
     },
     ar: {
       greeting: `مرحبا ${client || "العميل"}`,
-      message: `تفاصيل استشارتك:\n\n🏗️ المشروع: ${project}\n🏢 المبنى: ${block}\n🏬 الطابق: ${floor}\n📐 المساحة: ${surface} م²\n🏷️ النوع: ${type}\n💵 السعر/م²: ${price} MAD\n📊 % الدفعة الأولية: ${percent}%\n💰 الدفعة الأولى: ${initial}\n🚗 موقف سيارة: ${hasParking ? "نعم" : "لا"}\n💼 المجموع: ${total}\n📝 ملاحظات: ${clientNotes}\n\nشكرا على ثقتكم.`
+      message: `تفاصيل استشارتك:\n\n🏗️ المشروع: ${project}\n🏢 المبنى : ${block}\n🏬 الطابق: ${floor}\n📐 المساحة: ${surface} م²\n🏷️ النوع: ${type}\n💵 السعر/م²: ${price} MAD\n📊 % الدفعة الأولية: ${percent}%\n💰 الدفعة الأولى: ${initial}\n🚗 موقف سيارة: ${hasParking ? "نعم" : "لا"}\n💼 المجموع: ${total}\n\nشكرا على ثقتكم.`
     }
   };
 
@@ -2008,6 +1857,7 @@ function sendToWhatsApp() {
 
   window.open(whatsappURL, '_blank');
 }
+
 
 
   </script>
