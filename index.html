@@ -159,16 +159,28 @@
   z-index: 1000;
   }
 
-  .popup-content {
+  /* Popup content styling */
+.popup-content {
   background: rgba(255, 255, 255, 0.6); /* glassy white */
   backdrop-filter: blur(6px);
   padding: 20px;
   border-radius: 20px;
-  width: 30%;
+  width: 60vw; /* 60% of viewport width */
+  max-width: 600px; /* Prevent it from getting too wide */
+  min-width: 280px; /* Ensure it’s not too narrow on small screens */
+  margin: auto; /* Center the popup */
   display: flex;
   flex-direction: column;
   gap: 10px;
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2); /* subtle depth */
+}
+
+/* Responsive adjustments for mobile */
+@media (max-width: 768px) {
+  .popup-content {
+    width: 90vw; /* Use 90% of viewport width on mobile */
+    padding: 15px; /* Slightly reduce padding for smaller screens */
+  }
 }
 
 
@@ -177,24 +189,76 @@
   display: flex;
   flex-direction: column;
   gap: 5px;
-  }
+}
 
-  .popup-content .label-text {
+.popup-content .label-text {
   flex: 0 0 auto;
 }
 
   
+/* Popup buttons styling */
 .popup-buttons {
   display: flex;
+  flex-wrap: wrap; /* Allow buttons to wrap on smaller screens */
   justify-content: space-between;
+  gap: 10px; /* Add spacing between buttons */
   margin-top: 10px;
-  }
-  select#hasParking {
-  padding: 10px;
+}
+
+  
+/* Ensure buttons don’t overflow */
+.popup-buttons button {
+  font-size: 14px;
+  padding: 0.7em 1.5em;
+  border: 2px solid #916D48;
   border-radius: 10px;
-  border: 1px solid #ccc;
-  width: 55%;
- }
+  background-color: #183153bc;
+  color: #ffffff;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s ease all;
+  position: relative;
+  z-index: 1;
+  flex: 1; /* Make buttons take equal space */
+  min-width: 100px; /* Ensure buttons don’t get too small */
+}
+
+.popup-buttons button:before {
+  transition: 0.5s all ease;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  right: 50%;
+  bottom: 0;
+  opacity: 0;
+  content: '';
+  background-color: #916D48;
+  z-index: -1;
+  border-radius: 10px;
+}
+
+.popup-buttons button:hover,
+.popup-buttons button:focus {
+  border: 1px solid #d0ab80;
+  color: white;
+}
+
+.popup-buttons button:hover:before,
+.popup-buttons button:focus:before {
+  left: 0;
+  right: 0;
+  opacity: 1;
+}
+
+.popup-buttons button:active {
+  transform: scale(0.96);
+}
+
+.popup-buttons button:last-child {
+  background-color: #25D366; /* WhatsApp green */
+  color: white;
+  font-weight: bold;
+}
 
 
 /* Custom Button Styling */
@@ -384,6 +448,14 @@ html[lang="ar"] option {
   box-shadow: 0 0 15px rgba(182, 146, 101, 0.5);
 }
 
+
+select#hasParking {
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  width: 55%;
+ }
+
 .field select#hasParking {
   border: 1px solid #d0ab80;
   border-radius: 10px;
@@ -400,56 +472,6 @@ html[lang="ar"] option {
   box-shadow: 0 0 8px rgba(182, 146, 101, 0.8);
 }
 
-.popup-buttons button {
-  font-size: 14px;
-  padding: 0.7em 1.5em;
-  border: 2px solid #916D48;
-  border-radius: 10px;
-  background-color: #183153bc;
-  color: #ffffff;
-  font-weight: bold;
-  cursor: pointer;
-  transition: 0.3s ease all;
-  position: relative;
-  z-index: 1;
-}
-
-.popup-buttons button:before {
-  transition: 0.5s all ease;
-  position: absolute;
-  top: 0;
-  left: 50%;
-  right: 50%;
-  bottom: 0;
-  opacity: 0;
-  content: '';
-  background-color: #916D48;
-  z-index: -1;
-  border-radius: 10px;
-}
-
-.popup-buttons button:hover,
-.popup-buttons button:focus {
-  border: 1px solid #d0ab80;
-  color: white;
-}
-
-.popup-buttons button:hover:before,
-.popup-buttons button:focus:before {
-  left: 0;
-  right: 0;
-  opacity: 1;
-}
-
-.popup-buttons button:active {
-  transform: scale(0.96);
-}
-
-.popup-buttons button:last-child {
-  background-color: #25D366; /* WhatsApp green */
-  color: white;
-  font-weight: bold;
-}
 #sidebarToggle {
   position: fixed;
   top: 18px;
