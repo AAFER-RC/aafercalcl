@@ -159,47 +159,56 @@
   z-index: 1000;
   }
 
-  .popup-content {
+ /* Popup content styling */
+.popup-content {
   background: rgba(255, 255, 255, 0.6); /* glassy white */
   backdrop-filter: blur(6px);
   padding: 20px;
   border-radius: 20px;
-  width: 30%;
+  width: 60vw; /* 60% of viewport width */
+  max-width: 600px; /* Prevent it from getting too wide */
+  min-width: 280px; /* Ensure it’s not too narrow on small screens */
+  margin: auto; /* Center the popup */
   display: flex;
   flex-direction: column;
   gap: 10px;
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2); /* subtle depth */
 }
 
+  /* Responsive adjustments for mobile */
+  @media (max-width: 768px) {
+    .popup-content {
+      width: 90vw; /* Use 90% of viewport width on mobile */
+      padding: 15px; /* Slightly reduce padding for smaller screens */
+    }
+  }
 
-.popup-content label {
-  font-size: 14px;
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
+
+    .popup-content label {
+    font-size: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
   }
 
   .popup-content .label-text {
-  flex: 0 0 auto;
-}
+    flex: 0 0 auto;
+  }
 
   
-.popup-buttons {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 10px;
+  /* Popup buttons styling */
+  .popup-buttons {
+    display: flex;
+    flex-wrap: wrap; /* Allow buttons to wrap on smaller screens */
+    justify-content: space-between;
+    gap: 10px; /* Add spacing between buttons */
+    margin-top: 10px;
   }
-  select#hasParking {
-  padding: 10px;
-  border-radius: 10px;
-  border: 1px solid #ccc;
-  width: 55%;
- }
 
 
 /* Custom Button Styling */
 button.generate-pdf {
-  font-size: 18px;
+  font-size: 16px;
   letter-spacing: 2px;
   text-transform: none;
   display: inline-block;
@@ -217,6 +226,13 @@ button.generate-pdf {
   z-index: 1;
   cursor: pointer;
 }
+button.generate-pdf span {
+  display: block; /* 🔄 Change this */
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
 
 button.generate-pdf:before {
   transition: 0.5s all ease;
@@ -249,12 +265,81 @@ button.generate-pdf:active {
   transform: scale(0.96);
 }
 
+/* Popup buttons styling */
+.popup-buttons {
+  display: flex;
+  flex-wrap: wrap; /* Allow buttons to wrap on smaller screens */
+  justify-content: space-between;
+  gap: 10px; /* Add spacing between buttons */
+  margin-top: 10px;
+}
+
+/* Ensure buttons don’t overflow */
+.popup-buttons button {
+  font-size: 14px;
+  padding: 0.7em 1.5em;
+  border: 2px solid #916D48;
+  border-radius: 10px;
+  background-color: #183153bc;
+  color: #ffffff;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s ease all;
+  position: relative;
+  z-index: 1;
+  flex: 1; /* Make buttons take equal space */
+  min-width: 100px; /* Ensure buttons don’t get too small */
+}
+
+.popup-buttons button:before {
+  transition: 0.5s all ease;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  right: 50%;
+  bottom: 0;
+  opacity: 0;
+  content: '';
+  background-color: #916D48;
+  z-index: -1;
+  border-radius: 10px;
+}
+
+.popup-buttons button:hover,
+.popup-buttons button:focus {
+  border: 1px solid #d0ab80;
+  color: white;
+}
+
+.popup-buttons button:hover:before,
+.popup-buttons button:focus:before {
+  left: 0;
+  right: 0;
+  opacity: 1;
+}
+
+.popup-buttons button:active {
+  transform: scale(0.96);
+}
+
+.popup-buttons button:last-child {
+  background-color: #25D366; /* WhatsApp green */
+  color: white;
+  font-weight: bold;
+}
+
 @keyframes scaleUp {
   0% { transform: scale(1); }
   50% { transform: scale(0.95); }
   100% { transform: scale(1); }
 }
 
+select#hasParking {
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  width: 55%;
+ }
 
 .floating-selectors {
   position: sticky;
@@ -391,56 +476,7 @@ html[lang="ar"] option {
   box-shadow: 0 0 8px rgba(182, 146, 101, 0.8);
 }
 
-.popup-buttons button {
-  font-size: 16px;
-  padding: 0.7em 1.5em;
-  border: 2px solid #916D48;
-  border-radius: 10px;
-  background-color: #183153bc;
-  color: #ffffff;
-  font-weight: bold;
-  cursor: pointer;
-  transition: 0.3s ease all;
-  position: relative;
-  z-index: 1;
-}
 
-.popup-buttons button:before {
-  transition: 0.5s all ease;
-  position: absolute;
-  top: 0;
-  left: 50%;
-  right: 50%;
-  bottom: 0;
-  opacity: 0;
-  content: '';
-  background-color: #916D48;
-  z-index: -1;
-  border-radius: 10px;
-}
-
-.popup-buttons button:hover,
-.popup-buttons button:focus {
-  border: 1px solid #d0ab80;
-  color: white;
-}
-
-.popup-buttons button:hover:before,
-.popup-buttons button:focus:before {
-  left: 0;
-  right: 0;
-  opacity: 1;
-}
-
-.popup-buttons button:active {
-  transform: scale(0.96);
-}
-
-.popup-buttons button:last-child {
-  background-color: #25D366; /* WhatsApp green */
-  color: white;
-  font-weight: bold;
-}
 #sidebarToggle {
   position: fixed;
   top: 18px;
@@ -644,9 +680,9 @@ html[lang="ar"] .sidebar-menu li {
     
 
     <div style="text-align: center; margin-top: 20px;">
-        <button class="generate-pdf" onclick="openPopup()">
-            <span id="pdfButtonLabel">Generate PDF</span>
-          </button>          
+      <button class="generate-pdf" id="generatePdfBtn">
+        <span id="pdfButtonLabel">Generate PDF</span>
+      </button>          
       </div>
 
     <div id="popupForm" style="display:none;" class="popup-overlay">
@@ -658,6 +694,16 @@ html[lang="ar"] .sidebar-menu li {
         <label><span class="label-text">Bloc ~ Immeuble:</span><input type="text" id="block" placeholder="Bloc ~ Immeuble"/></label>
         <label><span class="label-text">Étage:</span><input type="text" id="floor" placeholder="Étage"/></label>
         <label><span class="label-text">Type d'appartement:</span><input type="text" id="apartmentType" placeholder="Type d'appartement"/></label>
+        <label for="client-notes" style="display: block; margin-top: 10px;">
+          Remarques et Spécifications:
+        </label>
+        <textarea id="client-notes" name="client-notes" rows="4"
+          placeholder="Saisir les remarques du client ici..."
+          style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 5px;"></textarea>
+        
+
+
+
         <div class="popup-buttons">
           <button onclick="generatePDF().catch(e => alert('Erreur PDF: ' + e.message))">Exporter</button>
           <button onclick="closePopup()">Annuler</button>
@@ -695,6 +741,24 @@ function reshapeArabic(text) {
     const remainingAmountEl = document.getElementById('remainingAmount');
     const extraSurfaceField = document.getElementById('extraSurfaceField');
     const extraLabel = document.getElementById('extraLabel');
+    const clientNotes = document.getElementById('client-notes').value || '';
+      if (clientNotes.trim() !== '') {
+    const isRTL = selectedLanguage === 'ar';
+    const docDirection = isRTL ? 'rtl' : 'ltr';
+    const label = isRTL ? 'ملاحظات ومواصفات:' : 'Remarques et Spécifications:';
+
+    const marginLeft = isRTL ? doc.internal.pageSize.getWidth() - 40 : 20;
+    const align = isRTL ? 'right' : 'left';
+
+    doc.setFont('Amiri', 'normal'); // or your RTL-compatible font
+    doc.setFontSize(12);
+    doc.text(label, marginLeft, currentY + 10, { align });
+
+    const splitNotes = doc.splitTextToSize(clientNotes, 160);
+    doc.text(splitNotes, marginLeft, currentY + 18, { align });
+
+    currentY += 18 + splitNotes.length * 6;
+  }
 
     let exchangeRates = { EUR: 0.091, USD: 0.10, MAD: 1 };
 
@@ -709,12 +773,13 @@ function reshapeArabic(text) {
       }
       }
         document.getElementById("languageSelector").addEventListener("change", function () {
+
       currentLang = this.value; // Update global language variable
       document.documentElement.setAttribute("lang", currentLang); // Update html lang attribute
       updateTranslations(); // Update UI labels and text
       calculate(); // Recalculate to update currency formatting
       });
-
+      document.getElementById("generatePdfBtn").addEventListener("click", openPopup);
       document.getElementById("currencySelector").addEventListener("change", function () {
     calculate(); // Recalculate to update currency formatting
      });
