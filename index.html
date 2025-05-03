@@ -719,26 +719,26 @@ html[lang="ar"] .sidebar-menu li {
           <h3>Informations du client</h3>
           <form>
             <div class="form-row">
-              <label><span class="label-text">Nom du client:</span>
+              <label for="clientName"><span class="label-text">Nom du client:</span>
                 <input type="text" id="clientName" placeholder="Nom du client" />
               </label>
-              <label><span class="label-text">Téléphone:</span>
+              <label for="clientPhone"><span class="label-text">Téléphone:</span>
                 <input type="text" id="clientPhone" placeholder="Téléphone" />
               </label>
             </div>
             <div class="form-row">
-              <label><span class="label-text">Projet:</span>
+              <label for="projectName"><span class="label-text">Projet:</span>
                 <input type="text" id="projectName" placeholder="Projet" />
               </label>
-              <label><span class="label-text">Bloc ~ Immeuble:</span>
+              <label for="block"><span class="label-text">Bloc ~ Immeuble:</span>
                 <input type="text" id="block" placeholder="Bloc ~ Immeuble" />
               </label>
             </div>
             <div class="form-row">
-              <label><span class="label-text">Étage:</span>
+              <label 	for="floor"><span class="label-text">Étage:</span>
                 <input type="text" id="floor" placeholder="Étage" />
               </label>
-              <label><span class="label-text">Type d'appartement:</span>
+              <label for="apartmentType"><span class="label-text">Type d'appartement:</span>
                 <input type="text" id="apartmentType" placeholder="Type d'appartement" />
               </label>
             </div>
@@ -911,7 +911,8 @@ function reshapeArabic(text) {
       apartmentType: "Type d'appartement",
       export: "Exporter",
       cancel: "Annuler",
-      whatsapp: "WhatsApp"
+      whatsapp: "WhatsApp",
+        clientNotes: "Remarques et Spécifications"
     },
     en: {
       propertyType: "Property Type",
@@ -935,7 +936,8 @@ function reshapeArabic(text) {
       apartmentType: "Apartment Type",
       export: "Export",
       cancel: "Cancel",
-      whatsapp: "WhatsApp"
+      whatsapp: "WhatsApp",
+      clientNotes: "Notes and Specifications"
     },
     ar: {
       propertyType: "نوع العقار",
@@ -959,7 +961,9 @@ function reshapeArabic(text) {
       apartmentType: "نوع الشقة",
       export: "تنزيل",
       cancel: "إلغاء",
-      whatsapp: "واتساب"
+      whatsapp: "واتساب",
+      clientNotes: "ملاحظات ومواصفات",
+
     },
     es: {
   propertyType: "Tipo de propiedad",
@@ -983,7 +987,8 @@ function reshapeArabic(text) {
   apartmentType: "Tipo de apartamento",
   export: "Exportar",
   cancel: "Cancelar",
-  whatsapp: "WhatsApp"
+  whatsapp: "WhatsApp",
+  clientNotes: "Observaciones y especificaciones"
 },
 nl: {
   propertyType: "Type eigendom",
@@ -1007,7 +1012,8 @@ nl: {
   apartmentType: "Type appartement",
   export: "Exporteren",
   cancel: "Annuleren",
-  whatsapp: "WhatsApp"
+  whatsapp: "WhatsApp",
+  clientNotes: "Opmerkingen en specificaties"
 },
 de: {
   propertyType: "Immobilienart",
@@ -1031,7 +1037,8 @@ de: {
   apartmentType: "Wohnungstyp",
   export: "Exportieren",
   cancel: "Abbrechen",
-  whatsapp: "WhatsApp"
+  whatsapp: "WhatsApp",
+  clientNotes: "Bemerkungen und Spezifikationen"
 },
 zh: {
   propertyType: "物业类型",
@@ -1055,7 +1062,8 @@ zh: {
   apartmentType: "公寓类型",
   export: "导出",
   cancel: "取消",
-  whatsapp: "WhatsApp"
+  whatsapp: "WhatsApp",
+  clientNotes: "备注与规格"
 },
 
   };
@@ -1101,25 +1109,38 @@ if (popupTitle) popupTitle.textContent = t.popupTitle;
 
 const clientNameLabel = document.querySelector("label[for='clientName'] .label-text");
 if (clientNameLabel) clientNameLabel.textContent = t.clientName;
-
+const clientNameInput = document.getElementById("clientName");
+if (clientNameInput) clientNameInput.placeholder = t.clientName;
 
 const clientPhoneLabel = document.querySelector("label[for='clientPhone'] .label-text");
 if (clientPhoneLabel) clientPhoneLabel.textContent = t.clientPhone;
+const clientPhoneInput = document.getElementById("clientPhone");
+if (clientPhoneInput) clientPhoneInput.placeholder = t.clientPhone;
 
 const projectNameLabel = document.querySelector("label[for='projectName'] .label-text");
 if (projectNameLabel) projectNameLabel.textContent = t.projectName;
+const projectNameInput = document.getElementById("projectName");
+if (projectNameInput) projectNameInput.placeholder = t.projectName;
 
 const blockLabel = document.querySelector("label[for='block'] .label-text");
 if (blockLabel) blockLabel.textContent = t.block;
+const blockInput = document.getElementById("block");
+if (blockInput) blockInput.placeholder = t.block;
 
 const floorLabel = document.querySelector("label[for='floor'] .label-text");
 if (floorLabel) floorLabel.textContent = t.floor;
+const floorInput = document.getElementById("floor");
+if (floorInput) floorInput.placeholder = t.floor;
 
 const apartmentTypeLabel = document.querySelector("label[for='apartmentType'] .label-text");
 if (apartmentTypeLabel) apartmentTypeLabel.textContent = t.apartmentType;
+const apartmentTypeInput = document.getElementById("apartmentType");
+if (apartmentTypeInput) apartmentTypeInput.placeholder = t.apartmentType;
 
 const clientNotesLabel = document.querySelector("label[for='client-notes'] .label-text");
 if (clientNotesLabel) clientNotesLabel.textContent = t.clientNotes;
+const clientNotesTextarea = document.getElementById("client-notes");
+if (clientNotesTextarea) clientNotesTextarea.placeholder = t.clientNotes;
 
 
 const exportButton = document.querySelector(".popup-buttons button:nth-child(1)");
@@ -1494,12 +1515,14 @@ if (hasParking && hasParking.options.length >= 2) {
       input.addEventListener('input', calculate);
     });
 
-    document.getElementById('currencySelector').addEventListener('change', calculate);
-    document.getElementById('languageSelector').addEventListener('change', (e) => {
-   const lang = e.target.value;
-   currentLang = lang;
-    applyTranslations(lang);
+      document.getElementById('currencySelector').addEventListener('change', calculate);
+      document.getElementById('languageSelector').addEventListener('change', (e) => {
+    const lang = e.target.value;
+    currentLang = lang;
+    applyTranslations(lang);     // Updates main calculator section
+    updateTranslations();        // 🟢 Also update the popup!
     });
+
 
    
    applyTranslations(currentLang); // consistent usage
@@ -1760,45 +1783,49 @@ zh: {
   let y = 100;
 
   // General Info
-  doc.setFontSize(12);
-  doc.setTextColor(0, 0, 0);
-  doc.text(t.general.toUpperCase(), 15, y); y += 8;
+doc.setFont("Tajawal", "bold");         // 👈 Make section title bold
+doc.setFontSize(12);
+doc.setTextColor(0, 0, 0);
+doc.text(t.general.toUpperCase(), 15, y); y += 8;
 
-  const client = document.getElementById("clientName").value;
-  const phone = document.getElementById("clientPhone").value;
-  doc.text(`${t.client}: ${client}`, 15, y); y += 6;
-  doc.text(`${t.phone}: ${phone}`, 15, y); y += 10;
+doc.setFont("Tajawal", "normal");       // 👈 Reset for regular text
+const client = document.getElementById("clientName").value;
+const phone = document.getElementById("clientPhone").value;
+doc.text(`${t.client}: ${client}`, 15, y); y += 6;
+doc.text(`${t.phone}: ${phone}`, 15, y); y += 10;
 
-  // Project Table
-  doc.text(t.project.toUpperCase(), 15, y); y += 8;
-  const headers1 = t.headers1;
-  const row1 = [
-    document.getElementById("projectName").value,
-    document.getElementById("block").value,
-    document.getElementById("floor").value,
-    document.getElementById("apartmentType").value
-  ];
-  doc.autoTable({
+// Project Table Section Title
+doc.setFont("Tajawal", "bold");
+doc.text(t.project.toUpperCase(), 15, y); y += 8;
+
+doc.setFont("Tajawal", "normal");
+const headers1 = t.headers1;
+const row1 = [
+  document.getElementById("projectName").value,
+  document.getElementById("block").value,
+  document.getElementById("floor").value,
+  document.getElementById("apartmentType").value
+];
+doc.autoTable({
   startY: y,
   head: [headers1],
   body: [row1],
   theme: 'grid',
   styles: {
-  font: "Tajawal", // 👈 this applies the font to table text
-  fontStyle: "normal",
-  fontSize: 10
-},
-
+    font: "Tajawal",
+    fontStyle: "normal",
+    fontSize: 10
+  },
   headStyles: {
-  fillColor: [208, 171, 128],
-  textColor: 0 // 0 = black
-}
-
+    fillColor: [208, 171, 128],
+    textColor: 0
+  }
 });
+y = doc.lastAutoTable.finalY + 10;
 
-  y = doc.lastAutoTable.finalY + 10;
 
   // Property Table
+  doc.setFont("Tajawal", "bold");         // 👈 Make section title bold
   doc.text(t.property.toUpperCase(), 15, y); y += 8;
 let headers2, row2;
 const propertyType = document.getElementById("propertyType").value;
@@ -1856,6 +1883,7 @@ y = doc.lastAutoTable.finalY + 10;
 
 
   // Financial Table
+  doc.setFont("Tajawal", "bold");         // 👈 Make section title bold
   doc.text(t.finance.toUpperCase(), 15, y); y += 8;
   const headers3 = t.headers3;
 
