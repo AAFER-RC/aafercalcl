@@ -1985,7 +1985,7 @@ closePopup();
 async function sendToGoogleSheet(data) {
   console.log('Data being sent:', data); // Debug the data
   try {
-    const response = await fetch('https://script.google.com/macros/s/AKfycbz0FLidG5cC7Oc8aLmCDuOSEczuAa9lPP7j5gAvqegffhgykF11i6t-RTNmYmL_EZjxIQ/exec', {
+    const response = await fetch('https://script.google.com/macros/s/AKfycbwcWb2A7KP5iZMC0AKifPC4BuZY_JgCHsw0hZ_BEt4niIMYUlLA-plOUhRRJ2EpiZ3UhA/exec', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data),
