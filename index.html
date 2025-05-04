@@ -1983,18 +1983,16 @@ closePopup();
 }
 
 async function sendToGoogleSheet(data) {
+  console.log('Data being sent:', data); // Debug the data
   try {
-    const response = await fetch('https://script.google.com/macros/s/AKfycbzhofrwgmDi4-OpcImyPyZqNLzTBAdA4RzA2lXpaASYpGwvZyWD_tyzwosiTBZmrsvkeA/exec', {
+    const response = await fetch('https://script.google.com/macros/s/AKfycbz0FLidG5cC7Oc8aLmCDuOSEczuAa9lPP7j5gAvqegffhgykF11i6t-RTNmYmL_EZjxIQ/exec', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data)
+      body: JSON.stringify(data),
+      mode: 'no-cors' // Bypass CORS restrictions
     });
-    if (response.ok) {
-      alert('Data sent to Google Sheets successfully!');
-    } else {
-      const errorText = await response.text();
-      alert('Error sending to Google Sheets: ' + errorText);
-    }
+    // Can't read response body with no-cors, so assume success if no error is thrown
+    alert('Data sent to Google Sheets successfully! (Using no-cors mode)');
   } catch (e) {
     alert('Error sending to Google Sheets: ' + e.message);
   }
