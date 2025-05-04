@@ -1991,8 +1991,8 @@ async function sendToGoogleSheet(data) {
       body: JSON.stringify(data),
       mode: 'no-cors' // Bypass CORS restrictions
     });
-    // Can't read response body with no-cors, so assume success if no error is thrown
-    alert('Data sent to Google Sheets successfully! ');
+    // Show success message immediately since no-cors prevents response reading
+    alert('Data sent to Google Sheets successfully!');
   } catch (e) {
     alert('Error sending to Google Sheets: ' + e.message);
   }
