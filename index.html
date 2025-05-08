@@ -596,46 +596,91 @@ html[lang="ar"] .sidebar-menu li {
   cursor: pointer;
 }
  /*camera modal */
-.camera-modal {
+ .camera-modal {
   position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(0, 0, 0, 0.6);
-  display: flex;
+  inset: 0;
+  display: none; /* Add this to hide by default */
   align-items: center;
   justify-content: center;
+  backdrop-filter: blur(8px);
+  background-color: rgba(0, 0, 0, 0.4);
   z-index: 9999;
 }
 
 .camera-popup {
-  background: #fff;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 20px;
   padding: 20px;
-  border-radius: 10px;
+  width: 90%;
   max-width: 600px;
-  width: 95%;
-  text-align: center;
+  color: #fff;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
   position: relative;
+  backdrop-filter: blur(12px);
 }
 
-.camera-popup video,
-.camera-popup canvas {
+.popup-title {
+  font-size: 0.8rem;
+  margin-bottom: 15px;
+  justify-content: center;
+  color: #fff;
+}
+
+.camera-popup video {
   width: 100%;
-  border: 2px solid #ccc;
   border-radius: 10px;
   margin-bottom: 10px;
 }
 
-.camera-popup button {
-  margin: 5px;
-  padding: 10px 15px;
+.camera-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 15px;
 }
 
-.camera-popup .close-btn {
+.camera-buttons button {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 8px;
+  background: #fff;
+  color: #333;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.camera-buttons button:hover {
+  background: #f0f0f0;
+}
+
+.close-btn {
   position: absolute;
-  top: 10px;
-  right: 15px;
-  font-size: 22px;
+  top: 15px;
+  right: 20px;
+  font-size: 24px;
+  color: #fff;
   cursor: pointer;
 }
+
+.thumbnail-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
+
+.thumbnail-container img {
+  width: 100px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.thumbnail-container img:hover {
+  transform: scale(1.05);
+}
+
 
   </style>
   <script src="https://cdn.jsdelivr.net/gh/wanasit/arabic-text-reshaper/arabicshaper.min.js"></script>
@@ -2092,6 +2137,7 @@ function sendToWhatsApp() {
 }
 
 /* Camera function */
+let capturedImages = [];
 
 function openCamera() {
   const modal = document.getElementById('cameraModal');
@@ -2102,10 +2148,9 @@ function openCamera() {
   navigator.mediaDevices.getUserMedia({ video: true })
     .then((stream) => {
       video.srcObject = stream;
-      video.dataset.streamActive = 'true';
     })
     .catch((err) => {
-      alert("📵 Camera access error: " + err.message);
+      alert("Camera error: " + err.message);
       modal.style.display = 'none';
     });
 }
@@ -2113,31 +2158,40 @@ function openCamera() {
 function closeCamera() {
   const video = document.getElementById('videoPreview');
   const stream = video.srcObject;
-  if (stream && stream.getTracks) {
+  if (stream) {
     stream.getTracks().forEach(track => track.stop());
   }
   video.srcObject = null;
   document.getElementById('cameraModal').style.display = 'none';
-
-  const canvas = document.getElementById('photoCanvas');
-  canvas.style.display = 'none';
 }
 
 function capturePhoto() {
   const video = document.getElementById('videoPreview');
-  const canvas = document.getElementById('photoCanvas');
-  const ctx = canvas.getContext('2d');
-
+  const canvas = document.createElement('canvas');
   canvas.width = video.videoWidth;
   canvas.height = video.videoHeight;
+  const ctx = canvas.getContext('2d');
   ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-  canvas.style.display = 'block';
+
+  const imageUrl = canvas.toDataURL('image/png');
+  capturedImages.push(imageUrl);
+
+  const img = document.createElement('img');
+  img.src = imageUrl;
+  img.onclick = () => window.open(imageUrl, '_blank');
+  document.getElementById('capturedImages').appendChild(img);
 }
 
-function sendPhoto() {
-  alert("📤 This will later send the image to Google Drive or email.");
-  // TODO: Upload logic here (Google Apps Script or backend integration)
+function sendToDrive() {
+  alert("☁️ Will upload " + capturedImages.length + " image(s) to Google Drive.");
+  // TODO: Upload base64 strings to Google Apps Script or backend API
 }
+
+function sendByEmail() {
+  alert("📧 Will email " + capturedImages.length + " image(s) as attachments.");
+  // TODO: Create email with attachments via backend or Apps Script
+}
+
 
 
 
@@ -2170,15 +2224,20 @@ function sendPhoto() {
 
 
 <!-- Camera cameraModal section -->
-<div id="cameraModal" class="camera-modal" style="display: none;">
+
+  <div id="cameraModal" class="camera-modal">
     <div class="camera-popup">
       <span class="close-btn" onclick="closeCamera()">&times;</span>
-      <h5> Merci de capturer le recto et le verso de la CIN. </h5>
+      <h1 class="popup-title">Merci de capturer le recto et le verso de la CIN.</h1>
       <video id="videoPreview" autoplay playsinline></video>
-      <br>
-      <button onclick="capturePhoto()">📸 Capture</button>
-      <button onclick="sendPhoto()">📤 Send to Drive/Email</button>
-      <canvas id="photoCanvas" style="display: none;"></canvas>
+      
+      <div class="camera-buttons">
+        <button onclick="capturePhoto()">📸 Capture</button>
+        <button onclick="sendToDrive()">☁️ Upload to Drive</button>
+        <button onclick="sendByEmail()">✉️ Send by Email</button>
+      </div>
+  
+      <div id="capturedImages" class="thumbnail-container"></div>
     </div>
   </div>
   
