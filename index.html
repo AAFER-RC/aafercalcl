@@ -595,7 +595,47 @@ html[lang="ar"] .sidebar-menu li {
   color: rgba(255, 255, 255, 0.721);
   cursor: pointer;
 }
+ /*camera modal */
+.camera-modal {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
 
+.camera-popup {
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  max-width: 600px;
+  width: 95%;
+  text-align: center;
+  position: relative;
+}
+
+.camera-popup video,
+.camera-popup canvas {
+  width: 100%;
+  border: 2px solid #ccc;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+
+.camera-popup button {
+  margin: 5px;
+  padding: 10px 15px;
+}
+
+.camera-popup .close-btn {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 22px;
+  cursor: pointer;
+}
 
   </style>
   <script src="https://cdn.jsdelivr.net/gh/wanasit/arabic-text-reshaper/arabicshaper.min.js"></script>
@@ -608,6 +648,7 @@ html[lang="ar"] .sidebar-menu li {
   <div id="sidebarToggle" onclick="toggleSidebar()">
     <i class="fas fa-bars" aria-hidden="true"></i>
   </div>
+
   
   <div class="overlay">
 
@@ -2003,8 +2044,14 @@ function sendToGoogleSheet(data) {
     alert('Error sending to Google Sheets: ' + e.message);
   }
 }
+/*function comingSoon() {*/ 
 
+function comingSoon() {
+  alert("🛠️ Fonctionnalité à venir / Coming soon...");
+}
 
+/*
+function sendToWhatsApp */
 
 function sendToWhatsApp() {
   const lang = currentLang;
@@ -2044,34 +2091,53 @@ function sendToWhatsApp() {
   window.open(whatsappURL, '_blank');
 }
 
-// 🔄 Load consultations from Google Sheets
-document.addEventListener("DOMContentLoaded", () => {
-  const loadBtn = document.getElementById("loadConsultationBtn");
-  if (loadBtn) {
-    loadBtn.addEventListener("click", async () => {
-      try {
-        const response = await fetch('https://script.google.com/macros/s/AKfycbwcWb2A7KP5iZMC0AKifPC4BuZY_JgCHsw0hZ_BEt4niIMYUlLA-plOUhRRJ2EpiZ3UhA/exec', {
-          method: 'GET',
-          headers: { 'Content-Type': 'application/json' }
-        });
-        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-        
-        const result = await response.json();
-        if (result.success) {
-          const consultations = result.data;
-          console.log("Consultations récupérées:", consultations);
-          alert("Consultations chargées avec succès (" + consultations.length + ") !");
-          // Optionally populate UI with consultations here
-        } else {
-          throw new Error(result.error || "Erreur inconnue");
-        }
-      } catch (err) {
-        console.error("Erreur lors du chargement :", err);
-        alert("Erreur : " + err.message);
-      }
+/* Camera function */
+
+function openCamera() {
+  const modal = document.getElementById('cameraModal');
+  const video = document.getElementById('videoPreview');
+
+  modal.style.display = 'flex';
+
+  navigator.mediaDevices.getUserMedia({ video: true })
+    .then((stream) => {
+      video.srcObject = stream;
+      video.dataset.streamActive = 'true';
+    })
+    .catch((err) => {
+      alert("📵 Camera access error: " + err.message);
+      modal.style.display = 'none';
     });
+}
+
+function closeCamera() {
+  const video = document.getElementById('videoPreview');
+  const stream = video.srcObject;
+  if (stream && stream.getTracks) {
+    stream.getTracks().forEach(track => track.stop());
   }
-});
+  video.srcObject = null;
+  document.getElementById('cameraModal').style.display = 'none';
+
+  const canvas = document.getElementById('photoCanvas');
+  canvas.style.display = 'none';
+}
+
+function capturePhoto() {
+  const video = document.getElementById('videoPreview');
+  const canvas = document.getElementById('photoCanvas');
+  const ctx = canvas.getContext('2d');
+
+  canvas.width = video.videoWidth;
+  canvas.height = video.videoHeight;
+  ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+  canvas.style.display = 'block';
+}
+
+function sendPhoto() {
+  alert("📤 This will later send the image to Google Drive or email.");
+  // TODO: Upload logic here (Google Apps Script or backend integration)
+}
 
 
 
@@ -2079,20 +2145,20 @@ document.addEventListener("DOMContentLoaded", () => {
   <script src="https://cdn.jsdelivr.net/npm/arabic-persian-reshaper@1.0.5/dist/arabic-persian-reshaper.min.js"></script>
 
   <!-- Sidebar Container -->
-<div id="sidebar" class="hidden">
-  <div class="sidebar-header">
-    <i class="fas fa-times close-btn" onclick="toggleSidebar()"></i>
+  <div id="sidebar" class="hidden">
+    <div class="sidebar-header">
+      <i class="fas fa-times close-btn" onclick="toggleSidebar()"></i>
+    </div>
+    <ul class="sidebar-menu">
+      <li onclick="comingSoon()"><i class="fas fa-home"></i> Dashboard</li>
+      <li onclick="openCamera()"><i class="fas fa-camera"></i> Mobile Camera</li>
+    <li onclick="comingSoon()"><i class="fas fa-chart-line"></i> Analytics</li>
+    <li onclick="comingSoon()"><i class="fas fa-bell"></i> Reminder</li>
+    <li onclick="comingSoon()"><i class="fas fa-calendar-check"></i> Follow-Up</li>
+      <li id="loadConsultationBtn"><i class="fas fa-folder-open"></i> Load Consultations</li>
+      <li onclick="comingSoon()"><i class="fas fa-cog"></i> Settings</li>
+    </ul>
   </div>
-  <ul class="sidebar-menu">
-    <li><i class="fas fa-home"></i> Dashboard</li>
-    <li><i class="fas fa-camera"></i> Mobile Camera</li>
-    <li><i class="fas fa-chart-line"></i> Analytics</li>
-    <li><i class="fas fa-history"></i> Timeline</li>
-    <li><i class="fas fa-calendar-check"></i> Follow-Up</li>
-    <li id="loadConsultationBtn"><i class="fas fa-folder-open"></i> Load Consultations</li>
-    <li><i class="fas fa-cog"></i> Settings</li>
-  </ul>
-</div>
 
 <!-- Sidebar Toggle Script -->
 <script>
@@ -2103,6 +2169,19 @@ document.addEventListener("DOMContentLoaded", () => {
 </script>
 
 
+<!-- Camera cameraModal section -->
+<div id="cameraModal" class="camera-modal" style="display: none;">
+    <div class="camera-popup">
+      <span class="close-btn" onclick="closeCamera()">&times;</span>
+      <h5> Merci de capturer le recto et le verso de la CIN. </h5>
+      <video id="videoPreview" autoplay playsinline></video>
+      <br>
+      <button onclick="capturePhoto()">📸 Capture</button>
+      <button onclick="sendPhoto()">📤 Send to Drive/Email</button>
+      <canvas id="photoCanvas" style="display: none;"></canvas>
+    </div>
+  </div>
+  
 
 </body>
 </html>
