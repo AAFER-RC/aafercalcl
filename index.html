@@ -639,19 +639,52 @@ html[lang="ar"] .sidebar-menu li {
   margin-bottom: 15px;
 }
 
+/* Camera popup buttons styling */
 .camera-buttons button {
-  padding: 10px 15px;
-  border: none;
-  border-radius: 8px;
-  background: #fff;
-  color: #333;
+  font-size: 14px; /* Slightly smaller for compact popup */
+  letter-spacing: 1px;
+  text-transform: none;
+  display: inline-block;
+  text-align: center;
   font-weight: bold;
+  padding: 0.7em 1.5em; /* Adjusted padding for smaller buttons */
+  border: 2px solid #916D48; /* Gold border */
+  border-radius: 10px;
+  position: relative;
+  box-shadow: 0 1px 10px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.1);
+  color: #ffffff;
+  background-color: #183153bc; /* Navy background */
+  text-decoration: none;
+  transition: 0.3s ease all;
+  z-index: 1;
   cursor: pointer;
-  transition: 0.3s ease;
 }
-
-.camera-buttons button:hover {
-  background: #f0f0f0;
+.camera-buttons button:before {
+  transition: 0.5s all ease;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  right: 50%;
+  bottom: 0;
+  opacity: 0;
+  content: '';
+  background-color: #916D48; /* Gold background on hover */
+  z-index: -1;
+  border-radius: 10px;
+}
+.camera-buttons button:hover,
+.camera-buttons button:focus {
+  border: 1px solid #d0ab80; /* Lighter gold border on hover */
+  color: white;
+}
+.camera-buttons button:hover:before,
+.camera-buttons button:focus:before {
+  left: 0;
+  right: 0;
+  opacity: 1;
+}
+.camera-buttons button:active {
+  transform: scale(0.96);
 }
 
 .close-btn {
