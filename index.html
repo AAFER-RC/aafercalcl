@@ -2382,10 +2382,21 @@ function capturePhoto() {
   const imageUrl = canvas.toDataURL('image/png');
   capturedImages.push(imageUrl);
 
+  // Create thumbnail
   const img = document.createElement('img');
   img.src = imageUrl;
   img.onclick = () => window.open(imageUrl, '_blank');
   document.getElementById('capturedImages').appendChild(img);
+
+  // Auto-download the photo
+  const timestamp = new Date().toLocaleString('sv-SE').replace(/[: ]/g, '-');
+  const fileName = `photo-${timestamp}.png`;
+  const link = document.createElement('a');
+  link.href = imageUrl;
+  link.download = fileName;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
 }
 
 function sendByEmail() {
