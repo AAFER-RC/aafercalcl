@@ -595,11 +595,11 @@ html[lang="ar"] .sidebar-menu li {
   color: rgba(255, 255, 255, 0.721);
   cursor: pointer;
 }
- /*camera modal */
- .camera-modal {
+ /* Camera modal */
+.camera-modal {
   position: fixed;
   inset: 0;
-  display: none; /* Add this to hide by default */
+  display: none; /* Hide by default */
   align-items: center;
   justify-content: center;
   backdrop-filter: blur(8px);
@@ -607,19 +607,7 @@ html[lang="ar"] .sidebar-menu li {
   z-index: 9999;
 }
 
-/*.camera-popup {
-  background: rgba(255, 255, 255, 0.15);
-  border-radius: 20px;
-  padding: 20px;
-  width: 90%;
-  max-width: 600px;
-  color: #fff;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-  position: relative;
-  backdrop-filter: blur(12px);
-}*/
 .camera-popup {
-  /*width: min(90vw, 450px);*/
   width: min(70vw, 450px);
   background: rgba(255, 255, 255, 0.3);
   backdrop-filter: blur(12px);
@@ -639,17 +627,86 @@ html[lang="ar"] .sidebar-menu li {
   color: #fff;
 }
 
-
-.camera-instruction{
+.camera-instruction {
   font-size: 0.8rem;
   margin-bottom: 15px;
   text-align: center;
   color: #fff;
 }
+
+.video-container {
+  position: relative;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
 .camera-popup video {
   width: 100%;
   border-radius: 10px;
-  margin-bottom: 10px;
+  display: block;
+}
+
+.switch-camera {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 40px;
+  height: 40px;
+  padding: 0.5em;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #916D48; /* Gold border */
+  border-radius: 10px;
+  background-color: #183153cc; /* Slightly more opaque navy for visibility */
+  color: #ffffff;
+  cursor: pointer;
+  z-index: 10; /* Ensure clickable over video */
+  transition: 0.3s ease all;
+  box-shadow: 0 1px 10px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.1);
+}
+
+.switch-camera:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  right: 50%;
+  bottom: 0;
+  opacity: 0;
+  background-color: #916D48; /* Gold background on hover */
+  border-radius: 10px;
+  z-index: -1;
+  transition: 0.5s all ease;
+}
+
+.switch-camera:hover,
+.switch-camera:focus {
+  border: 1px solid #d0ab80; /* Lighter gold border on hover */
+  color: white;
+}
+
+.switch-camera:hover:before,
+.switch-camera:focus:before {
+  left: 0;
+  right: 0;
+  opacity: 1;
+}
+
+.switch-camera:active {
+  transform: scale(0.96);
+}
+
+html[lang="ar"] .switch-camera {
+  right: auto;
+  left: 10px; /* Move to top-left in RTL mode */
+}
+
+@media (min-width: 768px) {
+  .switch-camera {
+    display: none; /* Hide on desktop */
+  }
 }
 
 .camera-buttons {
@@ -679,6 +736,7 @@ html[lang="ar"] .sidebar-menu li {
   z-index: 1;
   cursor: pointer;
 }
+
 .camera-buttons button:before {
   transition: 0.5s all ease;
   position: absolute;
@@ -692,35 +750,76 @@ html[lang="ar"] .sidebar-menu li {
   z-index: -1;
   border-radius: 10px;
 }
+
 .camera-buttons button:hover,
 .camera-buttons button:focus {
   border: 1px solid #d0ab80; /* Lighter gold border on hover */
   color: white;
 }
+
 .camera-buttons button:hover:before,
 .camera-buttons button:focus:before {
   left: 0;
   right: 0;
   opacity: 1;
 }
+
 .camera-buttons button:active {
   transform: scale(0.96);
 }
 
-.camera-buttons button.switch-camera {
-  padding: 0.5em; /* Smaller padding for icon-only button */
-  font-size: 16px; /* Larger icon size */
-  width: 40px; /* Fixed width for square button */
-  height: 40px; /* Fixed height for square button */
+.close-btn {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  font-size: 24px;
+  color: #fff;
+  cursor: pointer;
+}
+
+.thumbnail-container {
   display: flex;
-  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
   justify-content: center;
 }
-/* Hide button.switch-camera on desktop */
-@media (min-width: 768px) {
-  .camera-buttons button.switch-camera {
-    display: none; /* Hide on desktop */
-  }
+
+.thumbnail-container img {
+  width: 100%;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.thumbnail-container img:hover {
+  transform: scale(1.05);
+}
+
+/* Camera popup input email */
+.camera-popup input[type="email"],
+.camera-popup textarea {
+  border: 2px solid #d0ab80; /* Gold border */
+  border-radius: 10px;
+  padding: 8px;
+  box-sizing: border-box;
+  outline: none;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  background-color: rgba(255, 255, 255, 0.6); /* Glassy effect */
+  backdrop-filter: blur(5px);
+  color: #333;
+  font-family: 'Poppins', sans-serif;
+  width: 80%;
+  max-width: 300px;
+  margin: 10px auto; /* Center and space inputs */
+  display: block; /* Ensure block-level for centering */
+}
+
+.camera-popup input[type="email"]:focus,
+.camera-popup textarea:focus {
+  border-color: #b69265; /* Bolder gold on focus */
+  box-shadow: 0 0 15px rgba(182, 146, 101, 0.5); /* Gold glow */
 }
 
 .close-btn {
@@ -2371,12 +2470,14 @@ function sendByEmail() {
       <span class="close-btn" onclick="closeCamera()">×</span>
       <h3 class="popup-title">ID Card Scanner</h3>
       <p class="camera-instruction">Merci de capturer le recto et le verso de la CIN</p>
-      <video id="videoPreview" autoplay playsinline></video>
+      <div class="video-container">
+        <video id="videoPreview" autoplay playsinline></video>
+        <button onclick="switchCamera()" title="Changer de caméra" class="switch-camera"><i class="fas fa-sync-alt"></i></button>
+      </div>
       <div class="camera-buttons">
         <button onclick="capturePhoto()">Capture</button>
         <button onclick="sendToDrive()">☁️ Drive</button>
         <button onclick="sendByEmail()">✉️ Email</button>
-        <button onclick="switchCamera()" title="Changer de caméra" class="switch-camera"><i class="fas fa-sync-alt"></i></button>
       </div>
       <div class="email-input" style="margin-top: 10px; text-align: center;">
         <input type="email" id="recipientEmail" placeholder="Entrez l'adresse e-mail" style="padding: 8px; border-radius: 8px; border: 1px solid #d0ab80; width: 80%; max-width: 300px;">
