@@ -706,6 +706,22 @@ html[lang="ar"] .sidebar-menu li {
   transform: scale(0.96);
 }
 
+.camera-buttons button.switch-camera {
+  padding: 0.5em; /* Smaller padding for icon-only button */
+  font-size: 16px; /* Larger icon size */
+  width: 40px; /* Fixed width for square button */
+  height: 40px; /* Fixed height for square button */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+/* Hide button.switch-camera on desktop */
+@media (min-width: 768px) {
+  .camera-buttons button.switch-camera {
+    display: none; /* Hide on desktop */
+  }
+}
+
 .close-btn {
   position: absolute;
   top: 15px;
@@ -2212,21 +2228,37 @@ function sendToWhatsApp() {
 
 /* Camera function */
 let capturedImages = [];
+let currentFacingMode = 'user'; // Track current camera (default: front)
 
-function openCamera() {
+function openCamera(facingMode = 'user') {
   const modal = document.getElementById('cameraModal');
   const video = document.getElementById('videoPreview');
 
   modal.style.display = 'flex';
 
-  navigator.mediaDevices.getUserMedia({ video: true })
+  // Stop any existing stream
+  if (video.srcObject) {
+    video.srcObject.getTracks().forEach(track => track.stop());
+    video.srcObject = null;
+  }
+
+  // Request new stream with specified facingMode
+  navigator.mediaDevices.getUserMedia({ 
+    video: { facingMode: facingMode } 
+  })
     .then((stream) => {
       video.srcObject = stream;
+      currentFacingMode = facingMode; // Update current mode
     })
     .catch((err) => {
-      alert("Camera error: " + err.message);
+      alert("Erreur de caméra : " + err.message);
       modal.style.display = 'none';
     });
+}
+
+function switchCamera() {
+  const newFacingMode = currentFacingMode === 'user' ? 'environment' : 'user';
+  openCamera(newFacingMode);
 }
 
 function closeCamera() {
@@ -2343,6 +2375,7 @@ function sendByEmail() {
         <button onclick="capturePhoto()">Capture</button>
         <button onclick="sendToDrive()">☁️ Upload to Drive</button>
         <button onclick="sendByEmail()">✉️ Send by Email</button>
+        <button onclick="switchCamera()" title="Changer de caméra"><i class="fas fa-sync-alt"></i></button>
       </div>
       <div class="email-input" style="margin-top: 10px; text-align: center;">
         <input type="email" id="recipientEmail" placeholder="Entrez l'adresse e-mail" style="padding: 8px; border-radius: 8px; border: 1px solid #d0ab80; width: 80%; max-width: 300px;">
