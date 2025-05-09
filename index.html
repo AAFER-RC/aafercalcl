@@ -607,7 +607,7 @@ html[lang="ar"] .sidebar-menu li {
   z-index: 9999;
 }
 
-.camera-popup {
+/*.camera-popup {
   background: rgba(255, 255, 255, 0.15);
   border-radius: 20px;
   padding: 20px;
@@ -617,6 +617,18 @@ html[lang="ar"] .sidebar-menu li {
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
   position: relative;
   backdrop-filter: blur(12px);
+}*/
+.camera-popup {
+  width: min(90vw, 450px);
+  background: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(12px);
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  position: relative;
+  max-height: 90vh; /* Limit height to 90% of viewport */
+  overflow-y: auto; /* Enable vertical scrolling */
+  -webkit-overflow-scrolling: touch; /* Smooth scrolling on mobile */
 }
 
 .popup-title {
@@ -626,6 +638,13 @@ html[lang="ar"] .sidebar-menu li {
   color: #fff;
 }
 
+
+.camera-instruction{
+  font-size: 0.8rem;
+  margin-bottom: 15px;
+  text-align: center;
+  color: #fff;
+}
 .camera-popup video {
   width: 100%;
   border-radius: 10px;
@@ -714,7 +733,29 @@ html[lang="ar"] .sidebar-menu li {
   transform: scale(1.05);
 }
 
-
+/* camera-popup input email */
+.camera-popup input[type="email"],
+.camera-popup textarea {
+  border: 2px solid #d0ab80; /* Gold border */
+  border-radius: 10px;
+  padding: 8px;
+  box-sizing: border-box;
+  outline: none;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  background-color: rgba(255, 255, 255, 0.6); /* Glassy effect */
+  backdrop-filter: blur(5px);
+  color: #333;
+  font-family: 'Poppins', sans-serif;
+  width: 80%;
+  max-width: 300px;
+  margin: 10px auto; /* Center and space inputs */
+  display: block; /* Ensure block-level for centering */
+}
+.camera-popup input[type="email"]:focus,
+.camera-popup textarea:focus {
+  border-color: #b69265; /* Bolder gold on focus */
+  box-shadow: 0 0 15px rgba(182, 146, 101, 0.5); /* Gold glow */
+}
   </style>
   <script src="https://cdn.jsdelivr.net/gh/wanasit/arabic-text-reshaper/arabicshaper.min.js"></script>
 
@@ -2215,14 +2256,48 @@ function capturePhoto() {
   document.getElementById('capturedImages').appendChild(img);
 }
 
-function sendToDrive() {
-  alert("☁️ Will upload " + capturedImages.length + " image(s) to Google Drive.");
-  // TODO: Upload base64 strings to Google Apps Script or backend API
-}
-
 function sendByEmail() {
-  alert("📧 Will email " + capturedImages.length + " image(s) as attachments.");
-  // TODO: Create email with attachments via backend or Apps Script
+  if (capturedImages.length === 0) {
+    alert("Aucune photo capturée à envoyer. Veuillez capturer des photos d'abord.");
+    return;
+  }
+
+  // Get recipient's email from input
+  const recipientEmail = document.getElementById('recipientEmail').value;
+  if (!recipientEmail || !recipientEmail.includes("@")) {
+    alert("Adresse e-mail invalide. Veuillez entrer une adresse e-mail valide.");
+    return;
+  }
+
+  // Get notes from textarea
+  const imageNotes = document.getElementById('imageNotes').value;
+
+  // Prepare data to send
+  const data = {
+    recipient: recipientEmail,
+    subject: "Photos de la CIN - Consultation Immobilier",
+    body: "Bonjour, Ci-joint les photos capturées (recto et verso de la CIN) pour la consultation immobilière.",
+    images: capturedImages, // Array of base64-encoded images
+    notes: imageNotes // Notes from textarea
+  };
+
+  // Send to Google Apps Script (email)
+  fetch('https://script.google.com/macros/s/AKfycbxHPVU2D8ksIwUueMe5fGZyOLkFGNaNemnouYpmG-MUOYyEBykdIZ4lJHFUBvFk_TfyZQ/exec', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data),
+    mode: 'no-cors'
+  })
+    .then(() => {
+      setTimeout(() => {
+        alert("📧 Les photos et les notes ont été envoyées par e-mail avec succès !");
+        document.getElementById('recipientEmail').value = ''; // Clear email input
+        document.getElementById('imageNotes').value = ''; // Clear notes textarea
+      }, 100);
+    })
+    .catch((error) => {
+      alert("Erreur lors de l'envoi de l'e-mail : " + error.message);
+    });
 }
 
 
@@ -2258,18 +2333,21 @@ function sendByEmail() {
 
 <!-- Camera cameraModal section -->
 
-  <div id="cameraModal" class="camera-modal">
+<div id="cameraModal" class="camera-modal">
     <div class="camera-popup">
-      <span class="close-btn" onclick="closeCamera()">&times;</span>
-      <h1 class="popup-title">Merci de capturer le recto et le verso de la CIN.</h1>
+      <span class="close-btn" onclick="closeCamera()">×</span>
+      <h3 class="popup-title">ID Card Scanner</h3>
+      <p class="camera-instruction">Merci de capturer le recto et le verso de la CIN</p>
       <video id="videoPreview" autoplay playsinline></video>
-      
       <div class="camera-buttons">
-        <button onclick="capturePhoto()">📸 Capture</button>
+        <button onclick="capturePhoto()">Capture</button>
         <button onclick="sendToDrive()">☁️ Upload to Drive</button>
         <button onclick="sendByEmail()">✉️ Send by Email</button>
       </div>
-  
+      <div class="email-input" style="margin-top: 10px; text-align: center;">
+        <input type="email" id="recipientEmail" placeholder="Entrez l'adresse e-mail" style="padding: 8px; border-radius: 8px; border: 1px solid #d0ab80; width: 80%; max-width: 300px;">
+        <textarea id="imageNotes" placeholder="Ajouter des notes (Projet, Type, Surface...) etc" rows="2" style="margin-top: 10px; padding: 8px; border-radius: 8px; border: 1px solid #d0ab80; width: 80%; max-width: 300px;"></textarea>
+      </div>
       <div id="capturedImages" class="thumbnail-container"></div>
     </div>
   </div>
